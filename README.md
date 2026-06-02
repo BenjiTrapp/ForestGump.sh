@@ -1,8 +1,30 @@
-# ForestGump.sh
+<p align="center">
+    <img src="static/hi_forest_gump.gif" alt="Forest Gump waving" width="360" />
+</p>
+
+<h1 align="center">ForestGump.sh</h1>
+
+<p align="center">
+    <em>AD Attack Platform</em> · browser-based · containerized · ready to roll
+</p>
 
 > AD Attack Platform — browser-based, containerized, ready to roll.
 
 A single Docker image packing the sharpest Active Directory and Entra ID attack & enumeration tools, served through **ttyd** — a web-based terminal on port `7681`. Fire up a browser, and you're in.
+
+## Demo
+
+ForestGump.sh gives you a browser-accessible offensive AD/Entra workstation with preinstalled tooling, so you can start assessing targets immediately instead of spending time on setup.
+
+<p align="center">
+    <img src="static/browser_tty.png" alt="ForestGump.sh browser terminal demo" width="980" />
+</p>
+
+In the web terminal you can:
+
+- launch AD and Entra recon tools right away
+- run from a disposable, reproducible container environment
+- work from any machine with just a browser at `http://localhost:7681`
 
 ## Tools
 
@@ -86,6 +108,18 @@ python3 /opt/tools/RelayKing-Depth/relayking.py -h
 The container uses `--net=host` to share the host network stack — necessary for tools like Responder, Coercer, and nxc that need raw socket access or must listen on specific ports.
 
 `--cap-add=NET_ADMIN` and `--cap-add=SYS_ADMIN` grant the privileges needed for packet crafting and network manipulation.
+
+Use the prebuilt GHCR image with host networking:
+
+```bash
+docker run -it --rm --name forestgump -p 7681:7681 --net=host --cap-add=NET_ADMIN --cap-add=SYS_ADMIN ghcr.io/benjitrapp/forestgump.sh:latest
+```
+
+For Mac Silicon (ARM) users, pull the x86_64 image explicitly before running:
+
+```bash
+docker pull ghcr.io/benjitrapp/forestgump.sh:latest --platform linux/x86_64
+```
 
 ## Project Structure
 

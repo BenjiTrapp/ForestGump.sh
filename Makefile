@@ -40,3 +40,10 @@ push:
 
 clean:
 	docker rmi $(IMAGE_NAME):$(DOCKER_TAG) 2>/dev/null || true
+
+ghcr-pull:
+	docker pull ghcr.io/benjitrapp/forestgump.sh:latest --platform linux/x86_64
+
+ghcr:
+	docker run -it --rm --name forestgump -p 7681:7681 --net=host --cap-add=NET_ADMIN --cap-add=SYS_ADMIN ghcr.io/benjitrapp/forestgump.sh:latest
+	
