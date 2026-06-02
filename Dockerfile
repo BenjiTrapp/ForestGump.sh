@@ -30,6 +30,12 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         golang-go \
         build-essential \
         libpcap-dev \
+        libssl-dev \
+        libffi-dev \
+        python3-dev \
+        python3-netifaces \
+        rustc \
+        cargo \
         powershell \
         && rm -rf /var/lib/apt/lists/*
 

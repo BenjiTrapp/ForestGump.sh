@@ -30,4 +30,4 @@ echo "Access the terminal at http://localhost:7681"
 echo "============================================"
 echo ""
 
-exec ttyd -W -p 7681 bash
+exec ttyd -W -p 7681 /opt/scripts/shell.sh
