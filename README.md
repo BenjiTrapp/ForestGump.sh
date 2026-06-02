@@ -51,6 +51,9 @@ In the web terminal you can:
 | [getSPNless](https://github.com/jarnovandenbrink/getSPNless) | SPN-less RBCD attacks |
 | [ad-reaper](https://github.com/mermehr/ad-reaper) | Multi-protocol AD enumerator (LDAP, SMB, SAMR) |
 | [AdStrike](https://github.com/capture0x/AdStrike) | AI-powered modular AD red-team framework |
+| [mimikatz](https://github.com/gentilkiwi/mimikatz) | Windows credential extraction (binary in /opt/tools/mimikatz) |
+| [Rubeus](https://github.com/GhostPack/Rubeus) | Kerberos abuse toolkit (source in /opt/tools/Rubeus) |
+| [KslKatz](https://github.com/vergamota/KslKatz) | BYOVD LSASS credential extractor (source in /opt/tools/KslKatz) |
 
 ### Entra ID / Azure AD
 

@@ -2,7 +2,7 @@
 # Helper script that sources this on login to make tools available
 # Source this in your shell: source /opt/scripts/tools.sh
 
-export PATH="$PATH:/opt/tools/Responder:/opt/tools/RelayKing-Depth:/opt/tools/gopacket:/opt/tools/AdStrike:/opt/tools/EntraFalcon:/opt/tools/entra-ca-insight:/opt/tools/pySIDHistory:/opt/tools/getSPNless:/opt/tools/ad-reaper:/root/.local/bin"
+export PATH="$PATH:/opt/tools/Responder:/opt/tools/RelayKing-Depth:/opt/tools/gopacket:/opt/tools/AdStrike:/opt/tools/EntraFalcon:/opt/tools/entra-ca-insight:/opt/tools/pySIDHistory:/opt/tools/getSPNless:/opt/tools/ad-reaper:/opt/tools/mimikatz:/root/.local/bin"
 
 alias responder='python3 /opt/tools/Responder/Responder.py'
 alias relayking='python3 /opt/tools/RelayKing-Depth/relayking.py'
@@ -52,6 +52,11 @@ help() {
     impacket-*    full Python impacket suite
     nxc           NetExec
     getspnless SPN TARGET
+
+  [ WINDOWS BINARIES (transfer to target) ]
+    mimikatz          /opt/tools/mimikatz/  -  credential extraction
+    Rubeus            /opt/tools/Rubeus/    -  Kerberos abuse (source)
+    KslKatz           /opt/tools/KslKatz/   -  BYOVD LSASS dump (source)
 
   [ QUICK START ]
     nxc ldap TARGET -u USER -p PASS --users

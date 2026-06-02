@@ -72,6 +72,20 @@ echo "[+] Installing ad-reaper..."
 git clone --depth=1 https://github.com/mermehr/ad-reaper.git /opt/tools/ad-reaper || echo "[-] ad-reaper clone failed"
 pip3 install -r /opt/tools/ad-reaper/requirements.txt 2>/dev/null || true
 
+# Windows binary tools (for transfer to Windows targets)
+echo "[+] Downloading mimikatz..."
+MIMIKATZ_URL=$(curl -sSLI -o /dev/null -w '%{url_effective}' "https://github.com/gentilkiwi/mimikatz/releases/latest" 2>/dev/null)
+MIMIKATZ_TAG=${MIMIKATZ_URL##*/}
+curl -sSL "https://github.com/gentilkiwi/mimikatz/releases/download/${MIMIKATZ_TAG}/mimikatz_trunk.zip" -o /tmp/mimikatz.zip && \
+  mkdir -p /opt/tools/mimikatz && unzip -o /tmp/mimikatz.zip -d /opt/tools/mimikatz && \
+  rm /tmp/mimikatz.zip || echo "[-] mimikatz download failed"
+
+echo "[+] Cloning Rubeus..."
+git clone --depth=1 https://github.com/GhostPack/Rubeus.git /opt/tools/Rubeus || echo "[-] Rubeus clone failed"
+
+echo "[+] Cloning KslKatz..."
+git clone --depth=1 https://github.com/vergamota/KslKatz.git /opt/tools/KslKatz || echo "[-] KslKatz clone failed"
+
 # Additional useful tools
 echo "[+] Installing additional AD tools..."
 pip3 install impacket certipy-ad ldapdomaindump kerbrute aioquic || echo "[-] Additional tools failed"
