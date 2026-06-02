@@ -5,6 +5,12 @@ EXPOSE 7681
 
 WORKDIR /opt
 
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y curl && \
+    . /etc/os-release && \
+    curl -sSL "https://packages.microsoft.com/config/$ID/$VERSION_ID/packages-microsoft-prod.deb" -o packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    rm packages-microsoft-prod.deb
+
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         curl \
         wget \
