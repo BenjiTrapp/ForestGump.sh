@@ -2,15 +2,20 @@
     <img src="static/hi_forest_gump.gif" alt="Forest Gump waving" width="360" />
 </p>
 
-<h1 align="center">ForestGump.sh</h1>
+<p align="center">
+    <img src="static/logo.png" alt="ForestGump.sh" width="400" />
+</p>
 
 <p align="center">
     <em>AD Attack Platform</em> · browser-based · containerized · ready to roll
 </p>
 
-> AD Attack Platform — browser-based, containerized, ready to roll.
+> Mama always said: "AD pentesting tools are like a box of chocolates — you never know what you're gonna get."  
+> But with ForestGump.sh, you get all of them. In a browser. In a container. Like a paper bag around booze at the grocery store.
 
-A single Docker image packing the sharpest Active Directory and Entra ID attack & enumeration tools, served through **ttyd** — a web-based terminal on port `7681`. Fire up a browser, and you're in.
+Look, here's the thing: when an EDR like CrowdStrike or SentinelOne is sitting on the target, running impacket from your laptop is like chugging whiskey in the checkout aisle: you're gonna get caught. But wrap it in a container? That's the paper bag. The EDR sees ttyd, a friendly little web terminal. It doesn't see the Responder, the secretsdump, the ntlmrelayx hiding inside. You just look like a guy buying groceries.
+
+A single Docker image packing the sharpest Active Directory and Entra ID attack & enumeration tools, served through **ttyd** — a web-based terminal on port `7681`. Fire up a browser, and you're in. Run from anywhere. Leave no agent on disk. And if you mess up? Just like that, it's like stepping off a bus — you don't even look back.
 
 ## Demo
 
@@ -120,6 +125,59 @@ For Mac Silicon (ARM) users, pull the x86_64 image explicitly before running:
 ```bash
 docker pull ghcr.io/benjitrapp/forestgump.sh:latest --platform linux/x86_64
 ```
+
+## Kubernetes Deployment
+
+For fast deployment, run the following command:
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/benjitrapp/forestgump.sh/main/deploy/forestgump.yaml
+```
+
+### Pod
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: forestgump-pod
+  labels:
+    app: forestgump
+spec:
+  containers:
+  - name: forestgump-pod
+    image: ghcr.io/benjitrapp/forestgump.sh:latest
+    ports:
+    - containerPort: 7681
+    securityContext:
+      readOnlyRootFilesystem: true
+```
+
+### Service
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: forestgump-svc
+  labels:
+    app: forestgump
+spec:
+  type: ClusterIP
+  ports:
+  - port: 7681
+    protocol: TCP
+  selector:
+    app: forestgump
+```
+
+To access the container, run:
+
+```bash
+kubectl port-forward forestgump-pod 7681:7681
+```
+
+Open in your browser: **http://localhost:7681**
 
 ## Project Structure
 
