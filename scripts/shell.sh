@@ -1,3 +1,4 @@
 #!/bin/bash
-cat /opt/scripts/entrypoint.sh
+source /opt/scripts/tools.sh
+help
 exec bash --rcfile /opt/scripts/bashrc_custom
