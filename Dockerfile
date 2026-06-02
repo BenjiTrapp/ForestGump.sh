@@ -6,10 +6,19 @@ EXPOSE 7681
 WORKDIR /opt
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y curl && \
-    . /etc/os-release && \
-    curl -sSL "https://packages.microsoft.com/config/$ID/$VERSION_ID/packages-microsoft-prod.deb" -o packages-microsoft-prod.deb && \
-    dpkg -i packages-microsoft-prod.deb && \
-    rm packages-microsoft-prod.deb
+    ARCH=$(dpkg --print-architecture) && \
+    case $ARCH in \
+        amd64) PS_ARCH="x64" ;; \
+        arm64) PS_ARCH="arm64" ;; \
+        *) echo "Unsupported arch: $ARCH"; exit 1 ;; \
+    esac && \
+    PS_URL=$(curl -sSLI -o /dev/null -w '%{url_effective}' "https://github.com/PowerShell/PowerShell/releases/latest" | grep -o 'v[0-9.]*') && \
+    curl -sSL "https://github.com/PowerShell/PowerShell/releases/download/${PS_URL}/powershell-${PS_URL#v}-linux-${PS_ARCH}.tar.gz" -o /tmp/pwsh.tar.gz && \
+    mkdir -p /opt/microsoft/powershell/7 && \
+    tar zxf /tmp/pwsh.tar.gz -C /opt/microsoft/powershell/7 && \
+    chmod +x /opt/microsoft/powershell/7/pwsh && \
+    ln -s /opt/microsoft/powershell/7/pwsh /usr/bin/pwsh && \
+    rm /tmp/pwsh.tar.gz
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         curl \
@@ -36,13 +45,12 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         python3-netifaces \
         rustc \
         cargo \
-        powershell \
         && rm -rf /var/lib/apt/lists/*
 
 RUN pipx ensurepath && pipx install git+https://github.com/Pennyw0rth/NetExec
 
 COPY install.sh /opt/install.sh
-RUN chmod +x /opt/install.sh && /opt/install.sh && rm -f /opt/install.sh
+RUN chmod +x /opt/install.sh && PIP_BREAK_SYSTEM_PACKAGES=1 /opt/install.sh && rm -f /opt/install.sh
 
 COPY scripts/ /opt/scripts/
 RUN chmod +x /opt/scripts/*.sh && \

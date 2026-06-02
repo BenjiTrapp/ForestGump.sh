@@ -74,6 +74,6 @@ pip3 install -r /opt/tools/ad-reaper/requirements.txt 2>/dev/null || true
 
 # Additional useful tools
 echo "[+] Installing additional AD tools..."
-pip3 install impacket certipy-ad ldapdomaindump kerbrute || echo "[-] Additional tools failed"
+pip3 install impacket certipy-ad ldapdomaindump kerbrute aioquic || echo "[-] Additional tools failed"
 
 echo "[*] Installation complete!"
