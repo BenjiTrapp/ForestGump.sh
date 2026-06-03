@@ -1,1 +1,39 @@
 source /opt/scripts/tools.sh
+
+RDP_LOG_DIR=${RDP_LOG_DIR:-/tmp/rdp-sessions}
+
+rdp-bg() {
+    mkdir -p "$RDP_LOG_DIR"
+    local stamp=$(date +%Y%m%d-%H%M%S)
+    rdp-browser "$@" > "$RDP_LOG_DIR/rdp-$stamp.log" 2>&1 &
+    local pid=$!
+    echo "$pid" > "$RDP_LOG_DIR/rdp-$stamp.pid"
+    echo "RDP session started (PID $pid | log $RDP_LOG_DIR/rdp-$stamp.log)"
+    echo "  URL: http://${HOST:-localhost}:${NOVNC_PORT:-6080}/vnc.html"
+    echo "  Stop: rdp-stop $pid"
+}
+
+rdp-stop() {
+    if [ -z "$1" ]; then
+        echo "Usage: rdp-stop <pid>"
+        echo "Running sessions:"
+        rdp-ls
+        return 1
+    fi
+    kill "$1" 2>/dev/null && echo "Stopped PID $1" || echo "PID $1 not found"
+}
+
+rdp-ls() {
+    local count=0
+    for f in "$RDP_LOG_DIR"/*.pid; do
+        [ -f "$f" ] || continue
+        local pid=$(cat "$f")
+        if kill -0 "$pid" 2>/dev/null; then
+            echo "PID $pid - $(basename "$f" .pid)"
+            count=$((count + 1))
+        else
+            rm -f "$f" "${f%.pid}.log" 2>/dev/null
+        fi
+    done
+    [ "$count" -eq 0 ] && echo "No active RDP sessions"
+}

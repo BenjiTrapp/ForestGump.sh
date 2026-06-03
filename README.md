@@ -57,8 +57,10 @@ In the web terminal you can:
 | [gpoParser](https://github.com/synacktiv/gpoParser) | GPO extraction & analysis |
 | [snafflepy](https://github.com/cisagov/snafflepy) | Python Snaffler — interesting file discovery |
 | [Evil-WinRM](https://github.com/Hackplayers/evil-winrm) | WinRM shell (Ruby) |
-| [xfreerdp](https://github.com/FreeRDP/FreeRDP) | RDP client |
+| [xfreerdp](https://github.com/FreeRDP/FreeRDP) | RDP client (headless-safe via xvfb) |
+| [rdp-browser](/#rdp--vnc-in-the-browser) | Browser-accessible RDP via noVNC (port 6080) |
 | [tightvncserver](https://github.com/TigerVNC/tigervnc) | VNC server |
+| [noVNC](https://github.com/novnc/noVNC) | Browser-based VNC client (port 6080) |
 | [gontlm-proxy](https://github.com/bdwyertech/gontlm-proxy) | NTLM proxy forwarder |
 | [px](https://github.com/genotrance/px) | NTLM proxy (Python) |
 | [DonPAPI](https://github.com/login-securite/DonPAPI) | Remote DPAPI credential dumper |
@@ -132,6 +134,68 @@ python3 /opt/tools/RelayKing-Depth/relayking.py -h
 ./GetADUsers host
 ./rbcd ...
 ```
+
+## RDP & VNC in the Browser
+
+ForestGump.sh gives you two ways to work with RDP sessions — both work inside the headless ttyd terminal without a physical X display.
+
+### xfreerdp (headless-safe)
+
+The `xfreerdp` command is wrapped by `xvfb-run` when no display is available, so it won't crash with the typical `$DISPLAY` error:
+
+```bash
+xfreerdp /v:192.168.1.100 /u:administrator /p:Password123 /cert:ignore
+```
+
+This runs the RDP client against a virtual framebuffer — useful for commands that don't need visual interaction. You won't see a desktop, but the RDP session still establishes.
+
+### Browser-accessible RDP via noVNC
+
+For full visual RDP access, use `rdp-browser`. It launches a pipeline that renders the RDP desktop in your browser:
+
+```
+Xvfb → xfreerdp → x11vnc → websockify/noVNC
+```
+
+```bash
+rdp-browser /v:192.168.1.100 /u:administrator /p:Password123 /cert:ignore
+```
+
+Open **http://localhost:6080/vnc.html** in a second browser tab.
+
+The RDP session runs in the foreground of your ttyd terminal. Press **Ctrl+C** to stop and clean up all processes (Xvfb, x11vnc, websockify, xfreerdp).
+
+### Background session management
+
+Running `rdp-browser` blocks the terminal. For longer sessions, use the background helpers:
+
+```bash
+rdp-bg /v:192.168.1.100 /u:admin /p:Password123 /cert:ignore
+# Terminal is free — session runs in background
+# Open http://localhost:6080/vnc.html
+
+rdp-ls          # List active sessions
+rdp-stop 1234   # Kill session by PID
+```
+
+Environment variables for `rdp-browser` / `rdp-bg`:
+
+| Variable      | Default        | Description                          |
+|---------------|----------------|--------------------------------------|
+| `NOVNC_PORT`  | `6080`         | noVNC web interface port             |
+| `VNC_PORT`    | `5900`         | Internal VNC port                    |
+| `DISPLAY_NUM` | `99`           | Virtual X display number             |
+| `SCREEN_SIZE` | `1280x1024x24` | Virtual screen resolution & depth    |
+
+### Ports
+
+| Port | Service    | Purpose                          |
+|------|------------|----------------------------------|
+| 7681 | ttyd       | Web terminal (primary interface) |
+| 6080 | noVNC      | Browser-accessible RDP desktop   |
+| 5900 | x11vnc     | Internal VNC (container only)    |
+
+> **Note for bridge networking**: port 6080 is automatically mapped. For host networking (`--net=host`), the port is directly accessible on the host.
 
 ## Running with Network Access
 
@@ -211,8 +275,12 @@ ForestGump.sh/
 ├── Dockerfile
 ├── Makefile
 ├── README.md
-├── install.sh         # Tool installation script
+├── install.sh           # Tool installation script
 └── scripts/
-    ├── entrypoint.sh  # ttyd launcher with tool banner
-    └── tools.sh       # PATH/alias setup (sourced in .bashrc)
+    ├── bashrc_custom    # Shell rc file with RDP session helpers
+    ├── entrypoint.sh    # ttyd launcher with tool banner
+    ├── rdp-browser.sh   # Browser-accessible RDP via noVNC
+    ├── shell.sh         # Shell launcher
+    ├── tools.sh         # PATH/alias setup (sourced in .bashrc)
+    └── xfreerdp.sh      # Headless-safe xfreerdp wrapper
 ```

@@ -7,7 +7,7 @@ NOVNC_PORT=${NOVNC_PORT:-6080}
 VNC_PORT=${VNC_PORT:-5900}
 DISPLAY_NUM=${DISPLAY_NUM:-99}
 SCREEN_SIZE=${SCREEN_SIZE:-1280x1024x24}
-NOVNC_DIR=/opt/tools/noVNC
+NOVNC_DIR=/usr/share/novnc
 
 cleanup() {
     echo ""
