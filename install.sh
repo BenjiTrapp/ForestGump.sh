@@ -86,6 +86,81 @@ git clone --depth=1 https://github.com/GhostPack/Rubeus.git /opt/tools/Rubeus ||
 echo "[+] Cloning KslKatz..."
 git clone --depth=1 https://github.com/vergamota/KslKatz.git /opt/tools/KslKatz || echo "[-] KslKatz clone failed"
 
+echo "[+] Cloning Recon-AD..."
+git clone --depth=1 https://github.com/outflanknl/Recon-AD.git /opt/tools/Recon-AD || echo "[-] Recon-AD clone failed"
+
+echo "[+] Cloning ADCSCoercePotato..."
+git clone --depth=1 https://github.com/decoder-it/ADCSCoercePotato.git /opt/tools/ADCSCoercePotato || echo "[-] ADCSCoercePotato clone failed"
+
+echo "[+] Cloning adPEAS..."
+git clone --depth=1 https://github.com/61106960/adPEAS.git /opt/tools/adPEAS || echo "[-] adPEAS clone failed"
+
+# Install AD-related PowerShell modules
+echo "[+] Installing AD PowerShell modules..."
+pwsh -c "Install-PackageProvider -Name NuGet -Force -ErrorAction SilentlyContinue" 2>/dev/null || true
+pwsh -c "Install-Module -Name Microsoft.Graph.Identity.DirectoryManagement -Force -Scope AllUser -AllowClobber -SkipPublisherCheck -ErrorAction SilentlyContinue" 2>/dev/null || echo "[-] Microsoft.Graph.Identity.DirectoryManagement failed"
+pwsh -c "Install-Module -Name AzureAD -Force -Scope AllUser -AllowClobber -SkipPublisherCheck -ErrorAction SilentlyContinue" 2>/dev/null || echo "[-] AzureAD module failed"
+
+# Clone PowerSploit (PowerUp, PowerView, etc.)
+echo "[+] Cloning PowerSploit..."
+git clone --depth=1 https://github.com/PowerShellMafia/PowerSploit.git /opt/tools/PowerSploit || echo "[-] PowerSploit clone failed"
+
+# Clone SharpUp
+echo "[+] Cloning SharpUp..."
+git clone --depth=1 https://github.com/GhostPack/SharpUp.git /opt/tools/SharpUp || echo "[-] SharpUp clone failed"
+
+# Install godap (Go LDAP TUI)
+echo "[+] Installing godap..."
+git clone --depth=1 https://github.com/Macmod/godap.git /opt/tools/godap || echo "[-] godap clone failed"
+cd /opt/tools/godap && go install . 2>/dev/null && cp "$HOME/go/bin/godap" /usr/local/bin/godap || echo "[-] godap build failed"
+cd /opt/tools
+
+# Install ldapnomnom (anonymous LDAP username bruteforce)
+echo "[+] Installing ldapnomnom..."
+go install github.com/lkarlslund/ldapnomnom@latest 2>/dev/null && cp "$HOME/go/bin/ldapnomnom" /usr/local/bin/ldapnomnom || echo "[-] ldapnomnom install failed"
+
+# Install GPOHunter (GPO security analyzer)
+echo "[+] Installing GPOHunter..."
+git clone --depth=1 https://github.com/PShlyundin/GPOHunter.git /opt/tools/GPOHunter || echo "[-] GPOHunter clone failed"
+pip3 install -r /opt/tools/GPOHunter/requirements.txt 2>/dev/null || true
+
+# Install TokenSmith (Entra ID token generator)
+echo "[+] Installing TokenSmith..."
+git clone --depth=1 https://github.com/JumpsecLabs/TokenSmith.git /opt/tools/TokenSmith || echo "[-] TokenSmith clone failed"
+cd /opt/tools/TokenSmith && go build -o /usr/local/bin/tokensmith main.go 2>/dev/null || echo "[-] TokenSmith build failed"
+cd /opt/tools
+
+# Install gpoParser (GPO extraction & analysis)
+echo "[+] Installing gpoParser..."
+pipx install git+https://github.com/synacktiv/gpoParser 2>/dev/null || echo "[-] gpoParser install failed"
+
+# Install DonPAPI (DPAPI credential dumper)
+echo "[+] Installing DonPAPI..."
+pipx install git+https://github.com/login-securite/DonPAPI.git 2>/dev/null || echo "[-] DonPAPI install failed"
+
+# Install gontlm-proxy (NTLM proxy forwarder)
+echo "[+] Installing gontlm-proxy..."
+git clone --depth=1 https://github.com/bdwyertech/gontlm-proxy.git /opt/tools/gontlm-proxy || echo "[-] gontlm-proxy clone failed"
+cd /opt/tools/gontlm-proxy && go build -o /usr/local/bin/gontlm-proxy ./cmd/gontlm-proxy/ 2>/dev/null || echo "[-] gontlm-proxy build failed"
+cd /opt/tools
+
+# Install px (NTLM proxy)
+echo "[+] Installing px..."
+pipx install px-proxy 2>/dev/null || echo "[-] px install failed"
+
+# Install AD-Ghost (PS script)
+echo "[+] Cloning AD-Ghost..."
+git clone --depth=1 https://github.com/LuemmelSec/AD-Ghost.git /opt/tools/AD-Ghost || echo "[-] AD-Ghost clone failed"
+
+# Install snafflepy (Python Snaffler port)
+echo "[+] Installing snafflepy..."
+git clone --depth=1 https://github.com/cisagov/snafflepy.git /opt/tools/snafflepy || echo "[-] snafflepy clone failed"
+pip3 install -r /opt/tools/snafflepy/requirements.txt 2>/dev/null || true
+
+# Install Evil-WinRM
+echo "[+] Installing Evil-WinRM..."
+gem install evil-winrm || echo "[-] Evil-WinRM install failed"
+
 # Additional useful tools
 echo "[+] Installing additional AD tools..."
 pip3 install impacket certipy-ad ldapdomaindump kerbrute aioquic || echo "[-] Additional tools failed"

@@ -46,6 +46,11 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         rustc \
         cargo \
         unzip \
+        ruby \
+        ruby-dev \
+        freerdp2-x11 \
+        tightvncserver \
+        libkrb5-dev \
         && rm -rf /var/lib/apt/lists/*
 
 RUN pipx ensurepath && pipx install git+https://github.com/Pennyw0rth/NetExec
