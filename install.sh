@@ -152,6 +152,9 @@ pipx install px-proxy 2>/dev/null || echo "[-] px install failed"
 echo "[+] Cloning AD-Ghost..."
 git clone --depth=1 https://github.com/LuemmelSec/AD-Ghost.git /opt/tools/AD-Ghost || echo "[-] AD-Ghost clone failed"
 
+echo "[+] Cloning Invoke-PassTheCert..."
+git clone --depth=1 https://github.com/The-Viper-One/Invoke-PassTheCert.git /opt/tools/Invoke-PassTheCert || echo "[-] Invoke-PassTheCert clone failed"
+
 # Install snafflepy (Python Snaffler port)
 echo "[+] Installing snafflepy..."
 git clone --depth=1 https://github.com/cisagov/snafflepy.git /opt/tools/snafflepy || echo "[-] snafflepy clone failed"

@@ -79,6 +79,7 @@ help() {
     ADCSCoercePotato  /opt/tools/ADCSCoercePotato/ - ADCS auth coercion (source)
     adPEAS            /opt/tools/adPEAS/  -  AD enum PowerShell script
     AD-Ghost          /opt/tools/AD-Ghost/  -  AD "undetectable" account PoC
+    Invoke-PassTheCert  /opt/tools/Invoke-PassTheCert/ - cert-based LDAP auth (PS)
 
   [ QUICK START ]
     nxc ldap TARGET -u USER -p PASS --users
