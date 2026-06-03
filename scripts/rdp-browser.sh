@@ -12,7 +12,7 @@ NOVNC_DIR=/opt/tools/noVNC
 cleanup() {
     echo ""
     echo "Shutting down..."
-    kill $NOVNC_PID $X11VNC_PID $FREERDP_PID $XVFB_PID 2>/dev/null
+    kill $WS_PID $X11VNC_PID $FREERDP_PID $XVFB_PID 2>/dev/null
     wait 2>/dev/null
     echo "Done."
 }
@@ -22,14 +22,20 @@ if ! command -v Xvfb &>/dev/null; then
     echo "Error: Xvfb not found. Install xvfb package."
     exit 1
 fi
-
 if ! command -v x11vnc &>/dev/null; then
     echo "Error: x11vnc not found."
     exit 1
 fi
-
+if ! command -v websockify &>/dev/null; then
+    echo "Error: websockify not found. Install python3-websockify."
+    exit 1
+fi
 if [ ! -d "$NOVNC_DIR" ]; then
     echo "Error: noVNC not found at $NOVNC_DIR"
+    exit 1
+fi
+if [ ! -f "$NOVNC_DIR/vnc.html" ]; then
+    echo "Error: noVNC web files missing (vnc.html not found)"
     exit 1
 fi
 
@@ -52,13 +58,19 @@ x11vnc -display :$DISPLAY_NUM -rfbport $VNC_PORT -forever -shared -nopw -quiet &
 X11VNC_PID=$!
 sleep 0.5
 
-echo "Starting noVNC proxy on port $NOVNC_PORT ..."
-$NOVNC_DIR/utils/novnc_proxy --vnc localhost:$VNC_PORT --listen $NOVNC_PORT >/dev/null 2>&1 &
-NOVNC_PID=$!
+if ! kill -0 $X11VNC_PID 2>/dev/null; then
+    echo "Error: x11vnc failed to start"
+    echo "Check that :$DISPLAY_NUM is a valid display."
+    exit 1
+fi
+
+echo "Starting websockify (noVNC) on 0.0.0.0:$NOVNC_PORT ..."
+websockify --web "$NOVNC_DIR" 0.0.0.0:$NOVNC_PORT localhost:$VNC_PORT &
+WS_PID=$!
 sleep 1
 
-if ! kill -0 $NOVNC_PID 2>/dev/null; then
-    echo "Error: noVNC proxy failed to start"
+if ! kill -0 $WS_PID 2>/dev/null; then
+    echo "Error: websockify failed to start"
     exit 1
 fi
 
@@ -69,10 +81,11 @@ echo "  RDP session active!"
 echo ""
 echo "  Open in your browser:"
 echo "  http://$HOST:$NOVNC_PORT/vnc.html"
+echo "  http://$HOST:$NOVNC_PORT/vnc_lite.html"
 echo ""
 echo "  Press Ctrl+C to stop."
 echo "============================================"
 echo ""
 
 wait $FREERDP_PID 2>/dev/null
-wait $NOVNC_PID $X11VNC_PID $XVFB_PID 2>/dev/null
+wait $WS_PID $X11VNC_PID $XVFB_PID 2>/dev/null

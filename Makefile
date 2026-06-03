@@ -12,6 +12,7 @@ run:
 	docker run -it --rm \
 		--name forestgump \
 		-p $(PORT):7681 \
+		-p $(NOVNC_PORT):$(NOVNC_PORT) \
 		--net=host \
 		--cap-add=NET_ADMIN \
 		--cap-add=SYS_ADMIN \
@@ -30,6 +31,7 @@ shell:
 	docker run -it --rm \
 		--name forestgump \
 		-p $(PORT):7681 \
+		-p $(NOVNC_PORT):$(NOVNC_PORT) \
 		--net=host \
 		--cap-add=NET_ADMIN \
 		--cap-add=SYS_ADMIN \
@@ -47,5 +49,5 @@ ghcr-pull:
 	docker pull ghcr.io/benjitrapp/forestgump.sh:latest --platform linux/x86_64
 
 ghcr:
-	docker run -it --rm --name forestgump -p 7681:7681 --net=host --cap-add=NET_ADMIN --cap-add=SYS_ADMIN ghcr.io/benjitrapp/forestgump.sh:latest
+	docker run -it --rm --name forestgump -p 7681:7681 -p 6080:6080 --net=host --cap-add=NET_ADMIN --cap-add=SYS_ADMIN ghcr.io/benjitrapp/forestgump.sh:latest
 	
