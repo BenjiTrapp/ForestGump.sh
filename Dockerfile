@@ -1,7 +1,7 @@
 FROM docker.io/tsl0922/ttyd:latest
 LABEL maintainer="ForestGump.sh"
 
-EXPOSE 7681
+EXPOSE 7681 6080
 
 WORKDIR /opt
 
@@ -46,14 +46,19 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         rustc \
         cargo \
         unzip \
+        xvfb \
         ruby \
         ruby-dev \
         freerdp2-x11 \
         tightvncserver \
+        x11vnc \
+        python3-websockify \
         libkrb5-dev \
         && rm -rf /var/lib/apt/lists/*
 
 RUN pipx ensurepath && pipx install git+https://github.com/Pennyw0rth/NetExec
+
+RUN git clone --depth=1 https://github.com/novnc/noVNC.git /opt/tools/noVNC
 
 COPY install.sh /opt/install.sh
 RUN chmod +x /opt/install.sh && PIP_BREAK_SYSTEM_PACKAGES=1 /opt/install.sh && rm -f /opt/install.sh
@@ -62,7 +67,7 @@ COPY scripts/ /opt/scripts/
 RUN chmod +x /opt/scripts/*.sh && \
     echo "source /opt/scripts/tools.sh" >> /root/.bashrc
 
-ENV PATH="$PATH:/opt/scripts:/opt/tools/Responder:/opt/tools/RelayKing-Depth:/opt/tools/gopacket/dist/portable:/opt/tools/AdStrike:/opt/tools/entra-ca-insight:/opt/tools/pySIDHistory:/opt/tools/getSPNless:/opt/tools/ad-reaper:/root/.local/bin"
+ENV PATH="$PATH:/opt/scripts:/opt/tools/Responder:/opt/tools/RelayKing-Depth:/opt/tools/gopacket/dist/portable:/opt/tools/AdStrike:/opt/tools/entra-ca-insight:/opt/tools/pySIDHistory:/opt/tools/getSPNless:/opt/tools/ad-reaper:/opt/tools/noVNC/utils:/root/.local/bin"
 
 WORKDIR /data
 

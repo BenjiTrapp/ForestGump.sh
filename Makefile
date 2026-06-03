@@ -1,6 +1,7 @@
 IMAGE_NAME := forestgump.sh
 DOCKER_TAG := latest
 PORT := 7681
+NOVNC_PORT := 6080
 
 .PHONY: build run shell push clean
 
@@ -20,6 +21,7 @@ run-bridge:
 	docker run -it --rm \
 		--name forestgump \
 		-p $(PORT):7681 \
+		-p $(NOVNC_PORT):$(NOVNC_PORT) \
 		--cap-add=NET_ADMIN \
 		--cap-add=SYS_ADMIN \
 		$(IMAGE_NAME):$(DOCKER_TAG)

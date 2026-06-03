@@ -16,6 +16,8 @@ alias entrafalcon='pwsh /opt/tools/EntraFalcon/EntraFalcon.ps1'
 alias evilwinrm='evil-winrm'
 alias gpohunter='python3 /opt/tools/GPOHunter/gpo_analyzer_cli.py'
 alias snafflepy='python3 /opt/tools/snafflepy/snaffler.py'
+alias xfreerdp='/opt/scripts/xfreerdp.sh'
+alias rdp-browser='/opt/scripts/rdp-browser.sh'
 
 help() {
   cat <<'EOF'
@@ -64,7 +66,8 @@ help() {
     impacket-*    full Python impacket suite
     nxc           NetExec
     evilwinrm     WinRM shell (ruby)
-    xfreerdp      RDP client
+    xfreerdp      RDP client (auto-wraps with xvfb-run in headless mode)
+    rdp-browser   Browser-accessible RDP via noVNC (port 6080)
     tightvncserver  VNC server
     snafflepy     Python Snaffler (file shares)
     getspnless SPN TARGET
