@@ -51,9 +51,27 @@ In the web terminal you can:
 | [getSPNless](https://github.com/jarnovandenbrink/getSPNless) | SPN-less RBCD attacks |
 | [ad-reaper](https://github.com/mermehr/ad-reaper) | Multi-protocol AD enumerator (LDAP, SMB, SAMR) |
 | [AdStrike](https://github.com/capture0x/AdStrike) | AI-powered modular AD red-team framework |
+| [godap](https://github.com/Macmod/godap) | LDAP TUI explorer |
+| [ldapnomnom](https://github.com/lkarlslund/ldapnomnom) | Anonymous LDAP username bruteforce |
+| [GPOHunter](https://github.com/PShlyundin/GPOHunter) | GPO misconfiguration analyzer |
+| [gpoParser](https://github.com/synacktiv/gpoParser) | GPO extraction & analysis |
+| [snafflepy](https://github.com/cisagov/snafflepy) | Python Snaffler — interesting file discovery |
+| [Evil-WinRM](https://github.com/Hackplayers/evil-winrm) | WinRM shell (Ruby) |
+| [xfreerdp](https://github.com/FreeRDP/FreeRDP) | RDP client |
+| [tightvncserver](https://github.com/TigerVNC/tigervnc) | VNC server |
+| [gontlm-proxy](https://github.com/bdwyertech/gontlm-proxy) | NTLM proxy forwarder |
+| [px](https://github.com/genotrance/px) | NTLM proxy (Python) |
+| [DonPAPI](https://github.com/login-securite/DonPAPI) | Remote DPAPI credential dumper |
 | [mimikatz](https://github.com/gentilkiwi/mimikatz) | Windows credential extraction (binary in /opt/tools/mimikatz) |
 | [Rubeus](https://github.com/GhostPack/Rubeus) | Kerberos abuse toolkit (source in /opt/tools/Rubeus) |
 | [KslKatz](https://github.com/vergamota/KslKatz) | BYOVD LSASS credential extractor (source in /opt/tools/KslKatz) |
+| [PowerSploit](https://github.com/PowerShellMafia/PowerSploit) | PowerUp, PowerView, etc. (source in /opt/tools/PowerSploit) |
+| [SharpUp](https://github.com/GhostPack/SharpUp) | C# PowerUp (source in /opt/tools/SharpUp) |
+| [Recon-AD](https://github.com/outflanknl/Recon-AD) | ADSI-based AD recon DLLs (source in /opt/tools/Recon-AD) |
+| [ADCSCoercePotato](https://github.com/decoder-it/ADCSCoercePotato) | ADCS auth coercion (source in /opt/tools/ADCSCoercePotato) |
+| [adPEAS](https://github.com/61106960/adPEAS) | AD enum PowerShell script (/opt/tools/adPEAS) |
+| [AD-Ghost](https://github.com/LuemmelSec/AD-Ghost) | AD "undetectable" account PoC (/opt/tools/AD-Ghost) |
+| [Invoke-PassTheCert](https://github.com/The-Viper-One/Invoke-PassTheCert) | Cert-based LDAP auth PowerShell (/opt/tools/Invoke-PassTheCert) |
 
 ### Entra ID / Azure AD
 
@@ -63,6 +81,10 @@ In the web terminal you can:
 | [roadtx](https://github.com/dirkjanm/ROADtools) | ROADtools Token eXchange |
 | [EntraFalcon](https://github.com/CompassSecurity/EntraFalcon) | Entra ID enumeration & risk assessment (PowerShell) |
 | [entra-ca-insight](https://github.com/emiliensocchi/entra-ca-insight) | Conditional Access gap analysis |
+| [Azure CLI](https://github.com/Azure/azure-cli) | Azure CLI (pipx) |
+| [TokenSmith](https://github.com/JumpsecLabs/TokenSmith) | Entra ID token generator |
+| [Microsoft.Graph](https://github.com/microsoftgraph/msgraph-sdk-powershell) | Microsoft Graph PowerShell SDK |
+| [AzureAD](https://github.com/Azure/AzureAD) | AzureAD PowerShell module |
 
 ## Quick Start
 
