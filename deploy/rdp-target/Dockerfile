@@ -6,6 +6,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
     xorg \
     openbox \
     xterm \
+    dbus \
     && rm -rf /var/lib/apt/lists/*
 
 # Create a test user for RDP login
@@ -30,4 +31,4 @@ exec bash"\n' > /home/demo/.xsession && \
 
 EXPOSE 3389
 
-CMD ["bash", "-c", "service dbus start 2>/dev/null; /usr/sbin/xrdp-sesman; exec /usr/sbin/xrdp --nodaemon"]
+CMD ["bash", "-c", "mkdir -p /run/dbus && dbus-daemon --system --fork 2>/dev/null; /usr/sbin/xrdp-sesman --nodaemon & sleep 1; exec /usr/sbin/xrdp --nodaemon"]

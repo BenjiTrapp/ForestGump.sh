@@ -2,7 +2,7 @@
 
 This demo shows how ForestGump.sh can perform headless RDP connections from within a Docker container using `xfreerdp` and `xvfb-run`.
 
-![RDP Demo](assets/rdp-demo.gif)
+![RDP Terminal Demo](assets/rdp-terminal-demo.gif)
 
 *Headless xfreerdp session connecting to an xrdp target from Docker*
 
