@@ -198,6 +198,79 @@ Environment variables for `rdp-browser` / `rdp-bg`:
 
 > **Note for bridge networking**: port 6080 is automatically mapped. For host networking (`--net=host`), the port is directly accessible on the host.
 
+### xfreerdp Demo Environment
+
+A self-contained demo environment is included to validate headless RDP connectivity end-to-end using Docker Compose.
+
+<p align="center">
+    <img src="assets/rdp-terminal-demo.gif" alt="Headless xfreerdp session connecting to an xrdp target from Docker" width="980" />
+</p>
+
+**Architecture:**
+
+```
+┌─────────────────────┐         RDP (3389)        ┌─────────────────────┐
+│   forestgump        │ ──────────────────────────>│   rdp-target        │
+│                     │                            │                     │
+│  - xfreerdp 2.11.5 │                            │  - Ubuntu 24.04     │
+│  - xvfb (headless)  │                            │  - xrdp             │
+│  - ttyd (web shell) │                            │  - openbox (WM)     │
+│                     │                            │  - xterm            │
+│  Port: 7681 (ttyd)  │                            │  Port: 3389 (RDP)   │
+└─────────────────────┘                            └─────────────────────┘
+         │                          │
+         └──────── adlab network ───┘
+```
+
+**Start the demo:**
+
+```bash
+# Build and launch both containers
+docker compose -f docker-compose.demo.yml up -d --build
+
+# Wait for xrdp to initialize
+sleep 3
+
+# Run the validation (connects to the rdp-target container)
+docker exec forestgump bash /opt/scripts/demo-xfreerdp.sh rdp-target demo demo
+
+# Dry-run (no target, validates toolchain only)
+docker exec forestgump bash /opt/scripts/demo-xfreerdp.sh
+```
+
+The demo script runs four checks:
+
+| Check | What it proves |
+|-------|---------------|
+| xfreerdp binary | `freerdp2-x11` package is correctly installed |
+| Version output | xfreerdp executes inside the container via xvfb |
+| xvfb-run available | Headless X11 virtual framebuffer is present |
+| Live RDP connection | End-to-end RDP from forestgump to rdp-target works |
+
+**Connect to your own targets from inside the container:**
+
+```bash
+# Using the wrapper (auto-detects headless):
+xfreerdp /v:192.168.1.10 /u:administrator /p:'P@ssw0rd' /cert:ignore
+
+# Or validate with the demo script:
+bash /opt/scripts/demo-xfreerdp.sh 192.168.1.10 administrator 'P@ssw0rd'
+```
+
+**Demo credentials:** `demo` / `demo`
+
+**Cleanup:**
+
+```bash
+docker compose -f docker-compose.demo.yml down
+```
+
+**Troubleshooting:**
+
+- **xrdp not listening** — wait a few seconds after container start; xrdp-sesman needs time to initialize.
+- **"Xvfb failed to start"** — a stale lock file may exist. The `--auto-servernum` flag avoids this by picking an unused display number. If it persists, restart the container.
+- **Connection refused** — ensure both containers are on the same network (`docker network ls` should show `forestgumpsh_adlab`).
+
 ## Running with Network Access
 
 The container uses `--net=host` to share the host network stack — necessary for tools like Responder, Coercer, and nxc that need raw socket access or must listen on specific ports.
@@ -276,12 +349,19 @@ ForestGump.sh/
 ├── Dockerfile
 ├── Makefile
 ├── README.md
-├── install.sh           # Tool installation script
+├── docker-compose.demo.yml  # Demo environment (forestgump + rdp-target)
+├── install.sh               # Tool installation script
+├── assets/
+│   └── rdp-terminal-demo.gif
+├── deploy/
+│   └── rdp-target/          # RDP target image (ubuntu + xrdp + openbox)
 └── scripts/
-    ├── bashrc_custom    # Shell rc file with RDP session helpers
-    ├── entrypoint.sh    # ttyd launcher with tool banner
-    ├── rdp-browser.sh   # Browser-accessible RDP via noVNC
-    ├── shell.sh         # Shell launcher
-    ├── tools.sh         # PATH/alias setup (sourced in .bashrc)
-    └── xfreerdp.sh      # Headless-safe xfreerdp wrapper
+    ├── bashrc_custom        # Shell rc file with RDP session helpers
+    ├── demo-xfreerdp.sh     # Demo validation script (4 checks)
+    ├── demo-record-terminal.sh
+    ├── entrypoint.sh        # ttyd launcher with tool banner
+    ├── rdp-browser.sh       # Browser-accessible RDP via noVNC
+    ├── shell.sh             # Shell launcher
+    ├── tools.sh             # PATH/alias setup (sourced in .bashrc)
+    └── xfreerdp.sh          # Headless-safe xfreerdp wrapper
 ```
