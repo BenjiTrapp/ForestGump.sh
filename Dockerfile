@@ -55,6 +55,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         python3-websockify \
         novnc \
         libkrb5-dev \
+        tmux \
         && rm -rf /var/lib/apt/lists/*
 
 RUN pipx ensurepath && pipx install git+https://github.com/Pennyw0rth/NetExec

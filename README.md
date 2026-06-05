@@ -59,6 +59,7 @@ In the web terminal you can:
 | [Evil-WinRM](https://github.com/Hackplayers/evil-winrm) | WinRM shell (Ruby) |
 | [xfreerdp](https://github.com/FreeRDP/FreeRDP) | RDP client (headless-safe via xvfb) |
 | [rdp-browser](/#rdp--vnc-in-the-browser) | Browser-accessible RDP via noVNC (port 6080) |
+| [tmux](https://github.com/tmux/tmux) | Terminal multiplexer for session management |
 | [tightvncserver](https://github.com/TigerVNC/tigervnc) | VNC server |
 | [noVNC](https://github.com/novnc/noVNC) | Browser-based VNC client (port 6080) |
 | [gontlm-proxy](https://github.com/bdwyertech/gontlm-proxy) | NTLM proxy forwarder |
