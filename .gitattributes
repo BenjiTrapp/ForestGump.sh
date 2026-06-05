@@ -1,0 +1,11 @@
+# Auto-detect text files and normalize line endings in the repo
+* text=auto
+
+# Force LF for all files that run inside Docker containers
+*.sh text eol=lf
+*.py text eol=lf
+Dockerfile text eol=lf
+deploy/**/Dockerfile text eol=lf
+docker-compose*.yml text eol=lf
+install.sh text eol=lf
+scripts/bashrc_custom text eol=lf

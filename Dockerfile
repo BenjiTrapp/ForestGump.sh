@@ -47,6 +47,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         cargo \
         unzip \
         xvfb \
+        ffmpeg \
+        xdotool \
         ruby \
         ruby-dev \
         freerdp2-x11 \
@@ -61,10 +63,11 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 RUN pipx ensurepath && pipx install git+https://github.com/Pennyw0rth/NetExec
 
 COPY install.sh /opt/install.sh
-RUN chmod +x /opt/install.sh && PIP_BREAK_SYSTEM_PACKAGES=1 /opt/install.sh && rm -f /opt/install.sh
+RUN sed -i 's/\r$//' /opt/install.sh && chmod +x /opt/install.sh && PIP_BREAK_SYSTEM_PACKAGES=1 /opt/install.sh && rm -f /opt/install.sh
 
 COPY scripts/ /opt/scripts/
-RUN chmod +x /opt/scripts/*.sh && \
+RUN find /opt/scripts -type f -exec sed -i 's/\r$//' {} + && \
+    chmod +x /opt/scripts/*.sh && \
     echo "source /opt/scripts/tools.sh" >> /root/.bashrc
 
 ENV PATH="$PATH:/opt/scripts:/opt/tools/Responder:/opt/tools/RelayKing-Depth:/opt/tools/gopacket/dist/portable:/opt/tools/AdStrike:/opt/tools/entra-ca-insight:/opt/tools/pySIDHistory:/opt/tools/getSPNless:/opt/tools/ad-reaper:/root/.local/bin"
