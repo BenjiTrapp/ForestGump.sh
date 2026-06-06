@@ -2,7 +2,7 @@
 # Helper script that sources this on login to make tools available
 # Source this in your shell: source /opt/scripts/tools.sh
 
-export PATH="$PATH:/opt/tools/Responder:/opt/tools/RelayKing-Depth:/opt/tools/gopacket:/opt/tools/AdStrike:/opt/tools/EntraFalcon:/opt/tools/entra-ca-insight:/opt/tools/pySIDHistory:/opt/tools/getSPNless:/opt/tools/ad-reaper:/opt/tools/mimikatz:/root/.local/bin"
+export PATH="$PATH:/opt/tools/Responder:/opt/tools/RelayKing-Depth:/opt/tools/gopacket:/opt/tools/AdStrike:/opt/tools/EntraFalcon:/opt/tools/entra-ca-insight:/opt/tools/pySIDHistory:/opt/tools/getSPNless:/opt/tools/ad-reaper:/opt/tools/mimikatz:/opt/tools/AzureRedOps:/opt/tools/GraphRobber:/opt/tools/snitch:/root/.local/bin"
 
 alias responder='python3 /opt/tools/Responder/Responder.py'
 alias relayking='python3 /opt/tools/RelayKing-Depth/relayking.py'
@@ -13,6 +13,9 @@ alias getspnless='python3 /opt/tools/getSPNless/getSPNless.py'
 alias adreaper='python3 /opt/tools/ad-reaper/ad-reaper.py'
 alias adstrike='bash /opt/tools/AdStrike/run.sh'
 alias entrafalcon='pwsh /opt/tools/EntraFalcon/EntraFalcon.ps1'
+alias azureredops='pwsh /opt/tools/AzureRedOps'
+alias graphrobber='pwsh /opt/tools/GraphRobber/GraphRobber.ps1'
+alias snitch='python3 /opt/tools/snitch/snitch.py'
 alias evilwinrm='evil-winrm'
 alias gpohunter='python3 /opt/tools/GPOHunter/gpo_analyzer_cli.py'
 alias snafflepy='python3 /opt/tools/snafflepy/snaffler.py'
@@ -58,6 +61,8 @@ help() {
     roadrecon auth -u USER@DOMAIN -p PASS
     ca-insight
     entrafalcon
+    azureredops     Azure/Entra ID red team PowerShell toolkit
+    graphrobber     Microsoft Graph API permission abuse
     az              Azure CLI
     tokensmith      Entra ID token generator
 
@@ -70,6 +75,7 @@ help() {
     rdp-browser   Browser-accessible RDP via noVNC (port 6080)
     tightvncserver  VNC server
     snafflepy     Python Snaffler (file shares)
+    snitch        AD recon/enumeration
     getspnless SPN TARGET
 
   [ WINDOWS BINARIES (transfer to target) ]
@@ -83,6 +89,9 @@ help() {
     adPEAS            /opt/tools/adPEAS/  -  AD enum PowerShell script
     AD-Ghost          /opt/tools/AD-Ghost/  -  AD "undetectable" account PoC
     Invoke-PassTheCert  /opt/tools/Invoke-PassTheCert/ - cert-based LDAP auth (PS)
+    AzureRedOps       /opt/tools/AzureRedOps/ - Azure/Entra ID red team PS scripts
+    GraphRobber       /opt/tools/GraphRobber/ - Graph API permission abuse (PS)
+    snitch            /opt/tools/snitch/ - AD recon/enumeration
 
   [ QUICK START ]
     nxc ldap TARGET -u USER -p PASS --users

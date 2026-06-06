@@ -101,6 +101,14 @@ pwsh -c "Install-PackageProvider -Name NuGet -Force -ErrorAction SilentlyContinu
 pwsh -c "Install-Module -Name Microsoft.Graph.Identity.DirectoryManagement -Force -Scope AllUser -AllowClobber -SkipPublisherCheck -ErrorAction SilentlyContinue" 2>/dev/null || echo "[-] Microsoft.Graph.Identity.DirectoryManagement failed"
 pwsh -c "Install-Module -Name AzureAD -Force -Scope AllUser -AllowClobber -SkipPublisherCheck -ErrorAction SilentlyContinue" 2>/dev/null || echo "[-] AzureAD module failed"
 
+# Install RSAT AD PowerShell modules (cross-platform equivalents for Linux)
+echo "[+] Installing RSAT AD PowerShell modules..."
+pwsh -c "Install-Module -Name S.DS.P -Force -Scope AllUsers -AllowClobber -SkipPublisherCheck -ErrorAction SilentlyContinue" 2>/dev/null || echo "[-] S.DS.P module failed"
+pwsh -c "Install-Module -Name PSWSMan -Force -Scope AllUsers -AllowClobber -SkipPublisherCheck -ErrorAction SilentlyContinue" 2>/dev/null || echo "[-] PSWSMan module failed"
+pwsh -c "Install-WSMan" 2>/dev/null || echo "[-] WSMan install failed"
+pwsh -c "Install-Module -Name ActiveDirectory -Force -Scope AllUsers -AllowClobber -SkipPublisherCheck -ErrorAction SilentlyContinue" 2>/dev/null || echo "[-] ActiveDirectory module failed"
+pwsh -c "Install-Module -Name GroupPolicy -Force -Scope AllUsers -AllowClobber -SkipPublisherCheck -ErrorAction SilentlyContinue" 2>/dev/null || echo "[-] GroupPolicy module failed"
+
 # Clone PowerSploit (PowerUp, PowerView, etc.)
 echo "[+] Cloning PowerSploit..."
 git clone --depth=1 https://github.com/PowerShellMafia/PowerSploit.git /opt/tools/PowerSploit || echo "[-] PowerSploit clone failed"
@@ -154,6 +162,18 @@ git clone --depth=1 https://github.com/LuemmelSec/AD-Ghost.git /opt/tools/AD-Gho
 
 echo "[+] Cloning Invoke-PassTheCert..."
 git clone --depth=1 https://github.com/The-Viper-One/Invoke-PassTheCert.git /opt/tools/Invoke-PassTheCert || echo "[-] Invoke-PassTheCert clone failed"
+
+# Clone AzureRedOps (Azure/Entra ID red team PowerShell toolkit)
+echo "[+] Cloning AzureRedOps..."
+git clone --depth=1 https://github.com/Mr-Un1k0d3r/AzureRedOps.git /opt/tools/AzureRedOps || echo "[-] AzureRedOps clone failed"
+
+# Clone GraphRobber (Microsoft Graph API abuse toolkit)
+echo "[+] Cloning GraphRobber..."
+git clone --depth=1 https://github.com/rabbit-sec/GraphRobber.git /opt/tools/GraphRobber || echo "[-] GraphRobber clone failed"
+
+# Clone Snitch (AD recon/enumeration)
+echo "[+] Cloning Snitch..."
+git clone --depth=1 https://github.com/karol-broda/snitch.git /opt/tools/snitch || echo "[-] Snitch clone failed"
 
 # Install snafflepy (Python Snaffler port)
 echo "[+] Installing snafflepy..."
