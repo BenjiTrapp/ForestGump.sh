@@ -1,40 +1,112 @@
 IMAGE_NAME := forestgump.sh
 DOCKER_TAG := latest
-PORT := 7681
-NOVNC_PORT := 6080
+GHCR_IMAGE := ghcr.io/benjitrapp/forestgump.sh:latest
 
-.PHONY: build run shell push clean
+# ─── Port Configuration ──────────────────────────────────────────────────────
+# UI Ports
+PORT_TTYD    := 7681
+PORT_NOVNC   := 6080
+PORT_VNC     := 5900
+
+# AD / Pentesting Ports
+PORT_DNS     := 53
+PORT_HTTP    := 80
+PORT_KERBEROS := 88
+PORT_RPC     := 135
+PORT_NETBIOS_NS  := 137
+PORT_NETBIOS_DGM := 138
+PORT_NETBIOS_SSN := 139
+PORT_LDAP    := 389
+PORT_HTTPS   := 443
+PORT_SMB     := 445
+PORT_LDAPS   := 636
+PORT_MSSQL   := 1433
+PORT_RDP     := 3389
+PORT_MDNS    := 5353
+PORT_LLMNR   := 5355
+PORT_WINRM   := 5985
+PORT_WINRMS  := 5986
+
+# Port mappings for Docker Desktop (Windows/Mac) where --net=host is unavailable
+PORTS = \
+	-p $(PORT_TTYD):7681 \
+	-p $(PORT_NOVNC):6080 \
+	-p $(PORT_VNC):5900 \
+	-p $(PORT_DNS):53/tcp \
+	-p $(PORT_DNS):53/udp \
+	-p $(PORT_HTTP):80 \
+	-p $(PORT_KERBEROS):88/tcp \
+	-p $(PORT_KERBEROS):88/udp \
+	-p $(PORT_RPC):135 \
+	-p $(PORT_NETBIOS_NS):137/udp \
+	-p $(PORT_NETBIOS_DGM):138/udp \
+	-p $(PORT_NETBIOS_SSN):139 \
+	-p $(PORT_LDAP):389 \
+	-p $(PORT_HTTPS):443 \
+	-p $(PORT_SMB):445 \
+	-p $(PORT_LDAPS):636 \
+	-p $(PORT_MSSQL):1433 \
+	-p $(PORT_RDP):3389 \
+	-p $(PORT_MDNS):5353/udp \
+	-p $(PORT_LLMNR):5355/udp \
+	-p $(PORT_WINRM):5985 \
+	-p $(PORT_WINRMS):5986
+
+CAPS = \
+	--cap-add=NET_ADMIN \
+	--cap-add=SYS_ADMIN
+
+.PHONY: build run run-linux run-windows shell push clean ghcr-pull ghcr ghcr-linux
+
+# ─── Build ────────────────────────────────────────────────────────────────────
 
 build:
 	docker build -t $(IMAGE_NAME):$(DOCKER_TAG) .
 
-run:
+# ─── Run (local build) ────────────────────────────────────────────────────────
+
+run-windows:  ## Docker Desktop (Windows/Mac) - uses port mapping
 	docker run -it --rm \
 		--name forestgump \
-		-p $(PORT):7681 \
-		-p $(NOVNC_PORT):$(NOVNC_PORT) \
-		--net=host \
-		--cap-add=NET_ADMIN \
-		--cap-add=SYS_ADMIN \
+		$(PORTS) \
+		$(CAPS) \
 		$(IMAGE_NAME):$(DOCKER_TAG)
 
-run-bridge:
+run-linux:  ## Native Linux - uses host networking (all ports available)
 	docker run -it --rm \
 		--name forestgump \
-		-p $(PORT):7681 \
-		-p $(NOVNC_PORT):$(NOVNC_PORT) \
-		--cap-add=NET_ADMIN \
-		--cap-add=SYS_ADMIN \
+		--net=host \
+		$(CAPS) \
 		$(IMAGE_NAME):$(DOCKER_TAG)
+
+run: run-windows  ## Default: Docker Desktop (alias for run-windows)
+
+# ─── Run (GHCR image) ────────────────────────────────────────────────────────
+
+ghcr-pull:
+	docker pull --platform linux/x86_64 $(GHCR_IMAGE)
+
+ghcr:  ## GHCR on Docker Desktop (Windows/Mac)
+	docker run -it --rm \
+		--name forestgump \
+		$(PORTS) \
+		$(CAPS) \
+		$(GHCR_IMAGE)
+
+ghcr-linux:  ## GHCR on native Linux (all ports available via host networking)
+	docker run -it --rm \
+		--name forestgump \
+		--net=host \
+		$(CAPS) \
+		$(GHCR_IMAGE)
+
+# ─── Utility ──────────────────────────────────────────────────────────────────
 
 shell:
 	docker run -it --rm \
 		--name forestgump \
-		-p $(PORT):7681 \
-		-p $(NOVNC_PORT):$(NOVNC_PORT) \
-		--net=host \
-		--cap-add=NET_ADMIN \
-		--cap-add=SYS_ADMIN \
+		$(PORTS) \
+		$(CAPS) \
 		--entrypoint /bin/bash \
 		$(IMAGE_NAME):$(DOCKER_TAG)
 
@@ -44,10 +116,3 @@ push:
 
 clean:
 	docker rmi $(IMAGE_NAME):$(DOCKER_TAG) 2>/dev/null || true
-
-ghcr-pull:
-	docker pull ghcr.io/benjitrapp/forestgump.sh:latest --platform linux/x86_64
-
-ghcr:
-	docker run -it --rm --name forestgump -p 7681:7681 -p 6080:6080 --net=host --cap-add=NET_ADMIN --cap-add=SYS_ADMIN ghcr.io/benjitrapp/forestgump.sh:latest
-	
