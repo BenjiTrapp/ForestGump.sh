@@ -1,7 +1,7 @@
 FROM docker.io/tsl0922/ttyd:latest
 LABEL maintainer="ForestGump.sh"
 
-EXPOSE 7681 6080
+EXPOSE 7681 6080 5000
 
 WORKDIR /opt
 

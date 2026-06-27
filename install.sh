@@ -180,6 +180,22 @@ echo "[+] Installing snafflepy..."
 git clone --depth=1 https://github.com/cisagov/snafflepy.git /opt/tools/snafflepy || echo "[-] snafflepy clone failed"
 pip3 install -r /opt/tools/snafflepy/requirements.txt 2>/dev/null || true
 
+# Install GraphSpy (Entra ID / M365 post-exploitation GUI)
+echo "[+] Installing GraphSpy..."
+pipx install graphspy 2>/dev/null || echo "[-] GraphSpy install failed"
+
+# Install CredSpy (Entra ID user enumeration via GetCredentialType API)
+echo "[+] Installing CredSpy..."
+pipx install credspy 2>/dev/null || echo "[-] CredSpy install failed"
+
+# Clone o365creeper (O365 email validation without login attempts)
+echo "[+] Installing o365creeper..."
+git clone --depth=1 https://github.com/RedByte1337/o365creeper.git /opt/tools/o365creeper || echo "[-] o365creeper clone failed"
+
+# Clone TokenTactics (Azure JWT token manipulation PowerShell module)
+echo "[+] Installing TokenTactics..."
+git clone --depth=1 https://github.com/rvrsh3ll/TokenTactics.git /opt/tools/TokenTactics || echo "[-] TokenTactics clone failed"
+
 # Install Evil-WinRM
 echo "[+] Installing Evil-WinRM..."
 gem install evil-winrm || echo "[-] Evil-WinRM install failed"

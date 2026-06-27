@@ -9,6 +9,7 @@ PORT_NOVNC   := 6080
 PORT_VNC     := 5900
 
 # AD / Pentesting Ports
+PORT_GRAPHSPY := 5000
 PORT_DNS     := 53
 PORT_HTTP    := 80
 PORT_KERBEROS := 88
@@ -32,6 +33,7 @@ PORTS = \
 	-p $(PORT_TTYD):7681 \
 	-p $(PORT_NOVNC):6080 \
 	-p $(PORT_VNC):5900 \
+	-p $(PORT_GRAPHSPY):5000 \
 	-p $(PORT_DNS):53/tcp \
 	-p $(PORT_DNS):53/udp \
 	-p $(PORT_HTTP):80 \

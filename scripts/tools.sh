@@ -2,7 +2,7 @@
 # Helper script that sources this on login to make tools available
 # Source this in your shell: source /opt/scripts/tools.sh
 
-export PATH="$PATH:/opt/tools/Responder:/opt/tools/RelayKing-Depth:/opt/tools/gopacket:/opt/tools/AdStrike:/opt/tools/EntraFalcon:/opt/tools/entra-ca-insight:/opt/tools/pySIDHistory:/opt/tools/getSPNless:/opt/tools/ad-reaper:/opt/tools/mimikatz:/opt/tools/AzureRedOps:/opt/tools/GraphRobber:/opt/tools/snitch:/root/.local/bin"
+export PATH="$PATH:/opt/tools/Responder:/opt/tools/RelayKing-Depth:/opt/tools/gopacket:/opt/tools/AdStrike:/opt/tools/EntraFalcon:/opt/tools/entra-ca-insight:/opt/tools/pySIDHistory:/opt/tools/getSPNless:/opt/tools/ad-reaper:/opt/tools/mimikatz:/opt/tools/AzureRedOps:/opt/tools/GraphRobber:/opt/tools/snitch:/opt/tools/o365creeper:/opt/tools/TokenTactics:/root/.local/bin"
 
 alias responder='python3 /opt/tools/Responder/Responder.py'
 alias relayking='python3 /opt/tools/RelayKing-Depth/relayking.py'
@@ -21,6 +21,9 @@ alias gpohunter='python3 /opt/tools/GPOHunter/gpo_analyzer_cli.py'
 alias snafflepy='python3 /opt/tools/snafflepy/snaffler.py'
 alias xfreerdp='/opt/scripts/xfreerdp.sh'
 alias rdp-browser='/opt/scripts/rdp-browser.sh'
+alias graphspy='graphspy -i 0.0.0.0 -p 5000'
+alias o365creeper='python3 /opt/tools/o365creeper/o365creeper.py'
+alias tokentactics='pwsh -c "Import-Module /opt/tools/TokenTactics/TokenTactics.psd1"'
 
 help() {
   cat <<'EOF'
@@ -63,6 +66,10 @@ help() {
     entrafalcon
     azureredops     Azure/Entra ID red team PowerShell toolkit
     graphrobber     Microsoft Graph API permission abuse
+    graphspy        Entra ID/M365 post-exploitation GUI (port 5000)
+    credspy         Entra ID user enum & auth method discovery
+    o365creeper     O365 email validation (no login attempts)
+    tokentactics    Azure JWT token manipulation (PowerShell)
     az              Azure CLI
     tokensmith      Entra ID token generator
 
