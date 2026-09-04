@@ -28,6 +28,21 @@ PORT_LLMNR   := 5355
 PORT_WINRM   := 5985
 PORT_WINRMS  := 5986
 
+# macOS (Docker Desktop) port mappings.
+# The privileged AD service ports (53, 80, 88, 135, 137-139, 389, 443, 445, 636, ...)
+# collide with macOS host services (e.g. mDNSResponder on 53) and would fail to bind,
+# so only the browser UI ports are published here. For full raw-socket / all-port
+# access run on native Linux with `make run-linux`.
+# NOTE: GraphSpy is published on host port 5001 because the macOS AirPlay Receiver
+#       (ControlCenter) occupies port 5000. Inside the container GraphSpy still uses
+#       5000 — start it with `graphspy -i 0.0.0.0` so the port forward reaches it,
+#       then browse to http://localhost:5001
+MAC_PORTS = \
+	-p $(PORT_TTYD):7681 \
+	-p $(PORT_NOVNC):6080 \
+	-p $(PORT_VNC):5900 \
+	-p 5001:5000
+
 # Port mappings for Docker Desktop (Windows/Mac) where --net=host is unavailable
 PORTS = \
 	-p $(PORT_TTYD):7681 \
@@ -58,12 +73,14 @@ CAPS = \
 	--cap-add=NET_ADMIN \
 	--cap-add=SYS_ADMIN
 
-.PHONY: build run run-linux run-windows shell push clean ghcr-pull ghcr ghcr-linux
+.PHONY: build build_mac run run-linux run-windows run_mac shell push clean ghcr-pull ghcr ghcr-linux
 
 # ─── Build ────────────────────────────────────────────────────────────────────
 
 build:
 	docker build -t $(IMAGE_NAME):$(DOCKER_TAG) .
+
+build_mac: build  ## macOS: build the image (alias for build)
 
 # ─── Run (local build) ────────────────────────────────────────────────────────
 
@@ -78,6 +95,13 @@ run-linux:  ## Native Linux - uses host networking (all ports available)
 	docker run -it --rm \
 		--name forestgump \
 		--net=host \
+		$(CAPS) \
+		$(IMAGE_NAME):$(DOCKER_TAG)
+
+run_mac:  ## macOS (Docker Desktop): UI ports only, GraphSpy on host port 5001
+	docker run -it --rm \
+		--name forestgump \
+		$(MAC_PORTS) \
 		$(CAPS) \
 		$(IMAGE_NAME):$(DOCKER_TAG)
 
